@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "AD9F08DC-B540-40C9-972C-2CAFC99AAB82"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "27BDD8F1-03C4-451D-896C-5DECA6999B87"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GameEditor/ProjectNavigator/ProjectNavigatorViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "outlineView(_:acceptDrop:item:childIndex:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "27BDD8F1-03C4-451D-896C-5DECA6999B87 - 8820fb62bb286e76"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GameEditor.ProjectNavigatorViewController.outlineView(_: __C.NSOutlineView, acceptDrop: __C.NSDraggingInfo, item: Swift.Optional&lt;Any&gt;, childIndex: Swift.Int) -&gt; Swift.Bool"
+                  moduleName = "GameEditor"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nicolasmiari/Personal/Projects/GameEditor/GameEditor/ProjectNavigator/ProjectNavigatorViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "172"
+                  endingLineNumber = "172"
+                  offsetFromSymbolStart = "1324">
+               </Location>
+               <Location
+                  uuid = "27BDD8F1-03C4-451D-896C-5DECA6999B87 - 9c4378a34f00ad6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (CodableTree.Node) -&gt; () in GameEditor.ProjectNavigatorViewController.outlineView(_: __C.NSOutlineView, acceptDrop: __C.NSDraggingInfo, item: Swift.Optional&lt;Any&gt;, childIndex: Swift.Int) -&gt; Swift.Bool"
+                  moduleName = "GameEditor"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nicolasmiari/Personal/Projects/GameEditor/GameEditor/ProjectNavigator/ProjectNavigatorViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "172"
+                  endingLineNumber = "172"
+                  offsetFromSymbolStart = "22">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

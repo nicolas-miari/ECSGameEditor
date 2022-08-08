@@ -1,0 +1,50 @@
+{
+  "pins" : [
+    {
+      "identity" : "asset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Asset.git",
+      "state" : {
+        "revision" : "016b9d7346573cf4ca688610a159f136f7c7fc8a",
+        "version" : "0.0.0"
+      }
+    },
+    {
+      "identity" : "assetlibrary",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/AssetLibrary.git",
+      "state" : {
+        "revision" : "fe8755874eb437a79e19a24bf9504b1b942ed67a",
+        "version" : "0.0.2"
+      }
+    },
+    {
+      "identity" : "binaryresourceprovider",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/BinaryResourceProvider.git",
+      "state" : {
+        "revision" : "9ad4ca2ee4beb90c9e644308a2a33bb214adf1fa",
+        "version" : "0.0.0"
+      }
+    },
+    {
+      "identity" : "codabletree",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/CodableTree.git",
+      "state" : {
+        "revision" : "e37ffb815714f4e26ba0d6207b264266d64fa707",
+        "version" : "0.0.1"
+      }
+    },
+    {
+      "identity" : "component",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Component.git",
+      "state" : {
+        "revision" : "e73ab87eea503e560077be79c1afd4b7582eda3a",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -1,0 +1,15 @@
+{
+  "entities": {
+    "1234567890": {
+      "transform": {
+
+      }
+    },
+    "2345678901": {
+      "blueprint": "ABCDEFGH",
+      "transform": {
+
+      }
+    }
+  }
+}
