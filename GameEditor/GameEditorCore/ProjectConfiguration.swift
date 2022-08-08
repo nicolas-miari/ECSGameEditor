@@ -14,7 +14,7 @@ import CodableTree
  */
 struct ProjectConfiguration: Codable {
 
-  var projectTree: Node = .emptyProjectTree()
+  var projectTree: Node = .debugProjectTree() //.emptyProjectTree()
 
   // Creates a configuration object for a new (empty) project.
   public init() {
@@ -36,6 +36,28 @@ extension Node {
         Node(name: "Scene 3", payload: ""),
       ]),
       Node(name: "Assets", children: []),
+    ])
+  }
+
+  static func debugProjectTree() -> Node {
+    return Node(name: "Root", children: [
+      Node(name: "Folder 1", children: [
+        Node(name: "File 1", payload: ""),
+        Node(name: "File 2", payload: ""),
+        Node(name: "Folder 4", children: [
+        ]),
+        Node(name: "File 3", payload: ""),
+      ]),
+      Node(name: "Folder 2", children: [
+        Node(name: "File 3", payload: ""),
+        Node(name: "File 4", payload: ""),
+      ]),
+      Node(name: "Folder 3", children: [
+        Node(name: "File 5", payload: ""),
+        Node(name: "File 6", payload: ""),
+        Node(name: "File 7", payload: ""),
+        Node(name: "File 8", payload: ""),
+      ]),
     ])
   }
 }

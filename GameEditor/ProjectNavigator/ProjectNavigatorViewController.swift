@@ -132,16 +132,10 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
       return NSDragOperation()
     }
 
-    // Allow drag & drop of multiple items at once only if they all share the same source parent
-    // (otherwise, the drop becomes super problematic)
-    guard nodes.allShareSameParent else {
+    // The only drag and drop operations we allow are local reorder (not e.g. objects from outside).
+    guard draggingIsLocalReorder(info: info) else {
       return NSDragOperation()
     }
-
-    // The only drag and drop operations we allow are local reorder (not e.g. objects from outside).
-    //guard draggingIsLocalReorder(info: info) else {
-    //  return NSDragOperation()
-    //}
 
     // Check if we are dropping the mode into one of its descendants (not allowed)
     for draggedNode in draggedNodes! {
@@ -151,35 +145,45 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
     }
 
     info.animatesToDestination = true
-    return .generic
+    return .move
   }
 
   func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
-    // Nil represents the root.
-    let targetNode = item as? Node ?? projectTree
+    let targetNode = item as? Node ?? projectTree // Nil represents the root node.
 
-    let indices = draggedNodes!.compactMap { $0.parent!.children.firstIndex(of: $0) }
-    let parent = draggedNodes?.first?.parent
+    // Group all dragged nodes by their current parent, so they can be processed one parent at a
+    // time, removed from back to front (to avoid indices shifting midway).
+    let grouped = draggedNodes!.grouped{ $0.parent }
 
-    if targetNode == parent {
-      // Moving all nodes within the same parent
-
-
-
-    } else {
-      // Moving all nodes to  a separate parent
-
-      draggedNodes!.forEach { $0.removeFromParent() }
-      draggedNodes!.reversed().forEach {
-        try? targetNode.insertChild($0, at: index)
+    // [1] Update the outline view:
+    outlineView.beginUpdates()
+    grouped.forEach { group in
+      guard let parent = group.first?.parent else {
+        return // Should not happen (groups are never empty and dragged nodes always have a parent)
       }
-
-      let dstIndex = index == NSOutlineViewDropOnItemIndex ? 0 : index
-      outlineView.beginUpdates()
-      indices.forEach { itemIndex in
-        outlineView.moveItem(at: itemIndex, inParent: parent, to: index, inParent: targetNode)
+      // Map nodes to their indices in the current parent:
+      let childIndices: [Int] = group.compactMap { parent.children.firstIndex(of: $0) }.sorted()
+      childIndices.reversed().forEach { childIndex in
+        outlineView.moveItem(at: childIndex, inParent: parent, to: index, inParent: targetNode)
       }
-      outlineView.endUpdates()
+    }
+    outlineView.endUpdates()
+
+    // [2] Update the data model:
+    try? grouped.forEach { group in
+      guard let parent = group.first?.parent else {
+        return // Should not happen (groups are never empty and dragged nodes always have a parent)
+      }
+      // Map nodes to their indices in the current parent:
+      let childIndices: [Int] = group.compactMap { parent.children.firstIndex(of: $0) }.sorted()
+
+      // Remove nodes from current parent, back to front (to avoid index shifting), and insert into
+      // new parent.
+      // TODO: Group as onecomplex, undoable operation, and delgate to model controller (Document).
+      try childIndices.reversed().forEach { childIndex in
+        let child = try parent.removeChild(at: childIndex)
+        try targetNode.insertChild(child, at: index)
+      }
     }
 
     return true
@@ -223,5 +227,18 @@ extension Array where Element: Node {
 extension Equatable {
   func notIn(_ array: [Self]) -> Bool {
     return !array.contains(self)
+  }
+}
+
+extension Sequence {
+  // Thanks https://stackoverflow.com/a/57503373/433373
+  func grouped<T: Equatable>(by block: (Element) throws -> T) rethrows -> [[Element]] {
+    return try reduce(into: []) { result, element in
+      if let lastElement = result.last?.last, try block(lastElement) == block(element) {
+        result[result.index(before: result.endIndex)].append(element)
+      } else {
+        result.append([element])
+      }
+    }
   }
 }
