@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F23E07A28A0C5FE00C9C411 /* Sequence+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */; };
 		1F98097B289F5B70003845DB /* CodableTree in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097A289F5B70003845DB /* CodableTree */; };
 		1F98097E289F5C30003845DB /* AssetLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097D289F5C30003845DB /* AssetLibrary */; };
 		1F980981289F5C57003845DB /* BinaryResourceProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 1F980980289F5C57003845DB /* BinaryResourceProvider */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Utils.swift"; sourceTree = "<group>"; };
 		1F980983289F6041003845DB /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		1F980985289F61F5003845DB /* SampleSceneData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SampleSceneData.json; sourceTree = "<group>"; };
 		1F98098C289FA282003845DB /* ProjectConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfiguration.swift; sourceTree = "<group>"; };
@@ -58,6 +60,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F23E07728A0C5DD00C9C411 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1F23E07828A0C5EC00C9C411 /* Foundation */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1F23E07828A0C5EC00C9C411 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		1F980982289F6032003845DB /* GameEditorCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +110,7 @@
 				1FB08831289F59C2008DDB3B /* Document.swift */,
 				1F98098E289FA8B1003845DB /* Document+Editing.swift */,
 				1FD8996B289FBDF700947E2F /* DocumentViewController.swift */,
+				1F23E07728A0C5DD00C9C411 /* Extensions */,
 				1F980982289F6032003845DB /* GameEditorCore */,
 				1FB08833289F59C3008DDB3B /* Assets.xcassets */,
 				1FB08835289F59C3008DDB3B /* Main.storyboard */,
@@ -203,6 +222,7 @@
 				1FD8996C289FBDF700947E2F /* DocumentViewController.swift in Sources */,
 				1F98098D289FA282003845DB /* ProjectConfiguration.swift in Sources */,
 				1FB08832289F59C2008DDB3B /* Document.swift in Sources */,
+				1F23E07A28A0C5FE00C9C411 /* Sequence+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

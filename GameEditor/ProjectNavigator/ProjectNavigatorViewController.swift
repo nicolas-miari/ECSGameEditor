@@ -21,10 +21,14 @@ class ProjectNavigatorViewController: DocumentViewController {
 
   private var draggedNodes: [Node]?
 
+  private let contextMenu = NSMenu(title: "Context")
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
     outlineView.registerForDraggedTypes([pasteboardType])
+    contextMenu.delegate = self
+    outlineView.menu = contextMenu
   }
 
   override func viewDidAppear() {
@@ -34,6 +38,50 @@ class ProjectNavigatorViewController: DocumentViewController {
       projectTree = document.projectConfiguration.projectTree
       outlineView.reloadData()
     }
+  }
+}
+
+// MARK: - NSMenu Delegate
+
+extension ProjectNavigatorViewController: NSMenuDelegate {
+  // Thanks https://stackoverflow.com/a/65105980/433373
+  func menuNeedsUpdate(_ menu: NSMenu) {
+    let indices = outlineView.contextMenuIndices
+    menu.removeAllItems()
+
+    let items = indices.map { outlineView.item(atRow: $0) as! Node }
+
+    // Group into new folder
+    if indices == outlineView.selectedRowIndexes {
+      let items = indices.map { outlineView.item(atRow: $0) as! Node }
+      if items.sameParent {
+        menu.addItem(withTitle: "New folder from selection", action: #selector(groupSelectedItems(_:)), keyEquivalent: "")
+      }
+    }
+  }
+
+  @objc func groupSelectedItems(_ sender: Any) {
+    let items = outlineView.selectedRowIndexes.map { outlineView.item(atRow: $0) as! Node }
+    guard items.sameParent else {
+      fatalError("Invalid Operation")
+    }
+    let childIndices = items.map { $0.parent!.children.firstIndex(of: $0) }
+
+  }
+}
+
+extension NSOutlineView {
+  // Thanks https://stackoverflow.com/a/65105980/433373
+  var contextMenuIndices: IndexSet {
+    /*
+     If we click on a selection, all selecte dindices. If we click outside of a selection, only
+     the index clicked on.
+     */
+    var indices = selectedRowIndexes
+    if clickedRow >= 0 && (selectedRowIndexes.isEmpty || !selectedRowIndexes.contains(clickedRow)) {
+      indices = [clickedRow]
+    }
+    return indices
   }
 }
 
@@ -215,8 +263,10 @@ extension Node {
   }
 }
 
+
 extension Array where Element: Node {
-  var allShareSameParent: Bool {
+  /// Returns true if all elements have the same node as their parent.
+  var sameParent: Bool {
     for node in self {
       if node.parent != first?.parent { return false }
     }
@@ -230,15 +280,4 @@ extension Equatable {
   }
 }
 
-extension Sequence {
-  // Thanks https://stackoverflow.com/a/57503373/433373
-  func grouped<T: Equatable>(by block: (Element) throws -> T) rethrows -> [[Element]] {
-    return try reduce(into: []) { result, element in
-      if let lastElement = result.last?.last, try block(lastElement) == block(element) {
-        result[result.index(before: result.endIndex)].append(element)
-      } else {
-        result.append([element])
-      }
-    }
-  }
-}
+
