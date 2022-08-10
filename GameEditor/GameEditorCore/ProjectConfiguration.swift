@@ -14,6 +14,17 @@ import CodableTree
  */
 struct ProjectConfiguration: Codable {
 
+  /**
+   Tree structure describing the grouping of all the project's game scenes and library assets.
+
+   The scenes and assets are exported as two flat arrays, but during editing, they can be freely
+   grouped for convenience or meaningfulness (for example, group all the separate scenes that make
+   up a "stage" in the game, or group all the texture atlases that are exclusinve to a certain
+   scene or stage).
+
+   This free grouping is inspired by how source files and resources such as storyboard can be
+   oganized into folders in an Xcode project.
+   */
   var projectTree: Node = .debugProjectTree() //.emptyProjectTree()
 
   // Creates a configuration object for a new (empty) project.
