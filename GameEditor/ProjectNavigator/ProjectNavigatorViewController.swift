@@ -42,6 +42,7 @@ class ProjectNavigatorViewController: DocumentViewController {
 extension ProjectNavigatorViewController: NSMenuDelegate {
   // Thanks https://stackoverflow.com/a/65105980/433373
   func menuNeedsUpdate(_ menu: NSMenu) {
+    // TODO: Move menu logic to the Document class (which knows the internals of the model)
     /*
     let indices = outlineView.contextMenuIndices
     menu.removeAllItems()
@@ -58,6 +59,7 @@ extension ProjectNavigatorViewController: NSMenuDelegate {
   }
 
   @objc func groupSelectedItems(_ sender: Any) {
+    // TODO: Move menu logic to the Document class (which knows the internals of the model)
     /*
     let items = outlineView.selectedRowIndexes.map { outlineView.item(atRow: $0) as! Node }
     guard items.sameParent else {
@@ -71,6 +73,7 @@ extension ProjectNavigatorViewController: NSMenuDelegate {
 extension NSOutlineView {
   // Thanks https://stackoverflow.com/a/65105980/433373
   var contextMenuIndices: IndexSet {
+    // TODO: Move menu logic to the Document class (which knows the internals of the model)
     /*
      If we click on a selection, all selecte dindices. If we click outside of a selection, only
      the index clicked on.
@@ -112,6 +115,10 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
 
   // MARK: - Support
 
+  /**
+   Casts the unsafe Any/Any? arguments of the NSOutlineViewDataSource API to the concrete type
+   `DocumentOutlineItem` provided by the model controller, for convenience.
+   */
   func outlineItem(for item: Any?) -> DocumentOutlineItem {
     guard let outlineItem = item as? DocumentOutlineItem else {
       return document!.documentOutlineRootItem
@@ -123,19 +130,22 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
 
   func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
     guard let document = document else {
-      return 0
+      return 0 // Initial load, document is nil
     }
     return document.numberOfChildren(in: outlineItem(for: item))
   }
 
   func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-    guard let document = document else { return 0 }
+    guard let document = document else {
+      return 0 // Initial load, document is nil
+    }
     return document.childItem(at: index, of: outlineItem(for: item))
   }
 
   func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-    guard let document = document else { return false }
-
+    guard let document = document else {
+      return false // Initial load, document is nil
+    }
     return document.numberOfChildren(in: outlineItem(for: item)) > 0
   }
 
@@ -155,10 +165,10 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
 
   func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
     guard let items = draggedItems as? [DocumentOutlineItem] else {
-      fatalError("")
+      return // (shouldn't be possible to drag before the document is set)
     }
-    let names = items.map { $0.title }.joined(separator: ", ")
-    Swift.print("dragging session will begin for: \(names)")
+    //let names = items.map { $0.title }.joined(separator: ", ")
+    //Swift.print("dragging session will begin for: \(names)")
 
     self.draggetOutlineItems = items
     session.draggingPasteboard.setData(Data(), forType: pasteboardType)
@@ -169,19 +179,19 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   }
 
   func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-    guard let document = document else { return NSDragOperation() }
+    Swift.print("Validate drop at index: \(index)")
+
+    guard let document = document else {
+      return NSDragOperation() // (shouldn't be possible to drag before the document is set)
+    }
 
     guard let items = draggetOutlineItems else {
-      return NSDragOperation() // (this should not happen)
+      return NSDragOperation() // (empty selection cannot be dragged)
     }
     let targetItem = outlineItem(for: item)
 
     guard document.canMove(items, to: targetItem) else {
-      return NSDragOperation()
-    }
-
-    guard targetItem.notIn(items) else {
-      return NSDragOperation()
+      return NSDragOperation() // Model controller disallows operation.
     }
 
     // TODO: Investigate why we need this
@@ -199,10 +209,11 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   }
 
   func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
-    guard let document = document else { return false }
-
+    guard let document = document else {
+      return false // (shouldn't be possible to drag before the document is set)
+    }
     guard let items = draggetOutlineItems else {
-      fatalError("")
+      return false // (empty selection cannot be dragged)
     }
     let targetItem = outlineItem(for: item)
     let groupedItems = document.groupItemsByParent(items, sortSiblings: .orderedDescending)
@@ -215,31 +226,16 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
       }
       let childIndices = group.compactMap { document.indexInParent(of: $0) }
 
+      let dropIndex = parent == targetItem ? index - 1 : index
+
       childIndices.forEach { childIndex in
-        outlineView.moveItem(at: childIndex, inParent: parent, to: index, inParent: targetItem)
+        outlineView.moveItem(at: childIndex, inParent: parent, to: dropIndex, inParent: targetItem)
       }
     }
     outlineView.endUpdates()
 
-    // [2] Update the data model:
+    // [2] Tell the model controller to update the model:
     document.moveItems(items, toIndex: index, of: targetItem)
-
-    /*
-    try? grouped.forEach { group in
-      guard let parent = group.first?.parent else {
-        return // Should not happen (groups are never empty and dragged nodes always have a parent)
-      }
-      // Map nodes to their indices in the current parent:
-      let childIndices: [Int] = group.compactMap { parent.children.firstIndex(of: $0) }.sorted()
-
-      // Remove nodes from current parent, back to front (to avoid index shifting), and insert into
-      // new parent.
-      // TODO: Group as onecomplex, undoable operation, and delgate to model controller (Document).
-      try childIndices.reversed().forEach { childIndex in
-        let child = try parent.removeChild(at: childIndex)
-        try targetNode.insertChild(child, at: index)
-      }
-    }*/
 
     return true
   }
@@ -257,13 +253,3 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
     return true
   }
 }
-
-
-
-extension Equatable {
-  func notIn(_ array: [Self]) -> Bool {
-    return !array.contains(self)
-  }
-}
-
-

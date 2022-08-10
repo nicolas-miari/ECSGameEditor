@@ -139,6 +139,9 @@ extension Document {
 
     if let nodes = contents as? [Node], let target = item.contents as? Node {
       nodes.grouped { $0.parent }.forEach { group in
+
+        //let dropIndex = target == group[0].parent ? index - 1 : index
+
         let sorted = group.sorted {
           guard let lhs = $0.indexInParent, let rhs = $1.indexInParent else {
             fatalError("Cannot sort orphan node(s) by index in parent.")
