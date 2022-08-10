@@ -164,11 +164,16 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   }
 
   func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+    // Disable dragging of multiple items: the handling is too complex and error prone. For now, let
+    // the user work around the limitation by groupping multiple items into a folder and dragging
+    // that instead to save time.
     guard let items = draggedItems as? [DocumentOutlineItem] else {
       return // (shouldn't be possible to drag before the document is set)
     }
     //let names = items.map { $0.title }.joined(separator: ", ")
     //Swift.print("dragging session will begin for: \(names)")
+
+    outlineView.draggingDestinationFeedbackStyle = .sourceList
 
     self.draggetOutlineItems = items
     session.draggingPasteboard.setData(Data(), forType: pasteboardType)
@@ -185,7 +190,7 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
       return NSDragOperation() // (shouldn't be possible to drag before the document is set)
     }
 
-    guard let items = draggetOutlineItems else {
+    guard let items = draggetOutlineItems, items.count == 1 else {
       return NSDragOperation() // (empty selection cannot be dragged)
     }
     let targetItem = outlineItem(for: item)
@@ -212,7 +217,7 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
     guard let document = document else {
       return false // (shouldn't be possible to drag before the document is set)
     }
-    guard let items = draggetOutlineItems else {
+    guard let items = draggetOutlineItems, items.count == 1 else {
       return false // (empty selection cannot be dragged)
     }
     let targetItem = outlineItem(for: item)
@@ -226,9 +231,12 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
       }
       let childIndices = group.compactMap { document.indexInParent(of: $0) }
 
-      let dropIndex = parent == targetItem ? index - 1 : index
+      var dropIndex = index
 
       childIndices.forEach { childIndex in
+        if parent == targetItem && childIndex < dropIndex {
+          dropIndex -= 1
+        }
         outlineView.moveItem(at: childIndex, inParent: parent, to: dropIndex, inParent: targetItem)
       }
     }

@@ -25,7 +25,7 @@ struct ProjectConfiguration: Codable {
    This free grouping is inspired by how source files and resources such as storyboard can be
    oganized into folders in an Xcode project.
    */
-  var projectTree: Node = .smallTestTree() //.emptyProjectTree()
+  var projectTree: Node = .debugProjectTree()
 
   // Creates a configuration object for a new (empty) project.
   public init() {
@@ -52,18 +52,10 @@ extension Node {
 
   static func smallTestTree() -> Node {
     return Node(name: "Root", children: [
-      Node(name: "A", children: [
-        Node(name: "A1", payload: "A1"),
-        Node(name: "A2", payload: "A2"),
-        Node(name: "A3", payload: "A3"),
-      ]),
-      Node(name: "B", children: [
-        Node(name: "B1", payload: "B1"),
-
-      ]),
-      Node(name: "C", children: [
-        Node(name: "C1", payload: "C1"),
-        Node(name: "C2", payload: "C2"),
+      Node(name: "Folder", children: [
+        Node(name: "File 1", payload: "File 1"),
+        Node(name: "File 2", payload: "File 2"),
+        Node(name: "File 3", payload: "File 3"),
       ]),
     ])
   }

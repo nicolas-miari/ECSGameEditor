@@ -149,8 +149,12 @@ extension Document {
           return lhs > rhs
         }
         sorted.forEach {
-          $0.removeFromParent()
-          try? target.insertChild($0, at: index)
+          if target == $0.parent && $0.indexInParent! < index {
+            try? target.insertChild($0, at: index - 1)
+          } else {
+            //$0.removeFromParent()
+            try? target.insertChild($0, at: index)
+          }
         }
       }
     } else {
