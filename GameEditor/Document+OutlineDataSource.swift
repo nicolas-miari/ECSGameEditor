@@ -17,11 +17,24 @@ import Asset
  */
 extension Document {
 
-  var documentOutlineRootItem: DocumentOutlineItem {
-    return DocumentOutlineItem(contents: projectConfiguration.projectTree)
+  func setupDocumentOutlineRootItem(node: Node) {
+    self.documentOutlineRootItem = DocumentOutlineItem(contents: node)
   }
 
-  func numberOfChilden(in item: DocumentOutlineItem) -> Int {
+  /**
+   Instances of `DocumentOutlineItem` must be unique for each represented document item. By
+   centralizing access in this method, we can enforce lazy instantiation and subsequent caching.
+   */
+  private func outlineItem(for item: any DocumentItem) -> DocumentOutlineItem {
+    if let cached = outlineItemCache[ObjectIdentifier(item)] {
+      return cached
+    }
+    let new = DocumentOutlineItem(contents: item)
+    outlineItemCache[ObjectIdentifier(item)] = new
+    return new
+  }
+
+  func numberOfChildren(in item: DocumentOutlineItem) -> Int {
     /**
      If the item is a folder node, imply return its child count.
      If the item is a leaf node representing a scene, return its entity count.
@@ -38,7 +51,7 @@ extension Document {
 
   func childItem(at index: Int, of item: DocumentOutlineItem) -> DocumentOutlineItem {
     if let node = item.contents as? Node {
-      return DocumentOutlineItem(contents: node.children[index])
+      return outlineItem(for: node.children[index])
     }
     // TODO: Implement for sub-node objects (Scene entities, entity components).
     fatalError("Unsupported item type.")
@@ -58,7 +71,7 @@ extension Document {
       guard let parent = node.parent else {
         return nil
       }
-      return DocumentOutlineItem(contents: parent)
+      return outlineItem(for: parent)
 
     default:
       // TODO: Implement for sub-node objects (Scene entities, entity components).
@@ -96,10 +109,24 @@ extension Document {
   }
 
   func canMove(_ items: [DocumentOutlineItem], to tentativeParent: DocumentOutlineItem) -> Bool {
-    /**
-     For nodes, check that we are not dropping an ancestor inside a descendant (would create a loop)
-     */
-    return true
+    let contents = items.map { $0.contents }
+    if let nodes = contents as? [Node], let target = tentativeParent.contents as? Node {
+      /**
+       For nodes, check that we are not dropping an ancestor inside a descendant (would create a loop)
+       */
+      guard target.isBranch else {
+        return false
+      }
+      guard target.notIn(nodes) else {
+        return false
+      }
+      guard (nodes.first { target.isDescendant(of: $0) }) == nil else {
+        return false
+      }
+
+      return true
+    }
+    return false
   }
 
   func moveItems(_ items: [DocumentOutlineItem], toIndex index: Int, of item: DocumentOutlineItem) {
@@ -119,6 +146,7 @@ extension Document {
           return lhs > rhs
         }
         sorted.forEach {
+          $0.removeFromParent()
           try? target.insertChild($0, at: index)
         }
       }
@@ -202,4 +230,25 @@ fileprivate struct SiblingNodeComparator: SortComparator {
   }
 }
 
+extension Node {
+  fileprivate func isDescendant(of otherNode: Node) -> Bool {
+    guard let parent = parent else {
+      return false
+    }
+    if parent == otherNode {
+      return true
+    }
+    return parent.isDescendant(of: otherNode)
+  }
+}
 
+
+extension Array where Element: Node {
+  /// Returns true if all elements have the same node as their parent.
+  var sameParent: Bool {
+    for node in self {
+      if node.parent != first?.parent { return false }
+    }
+    return true
+  }
+}

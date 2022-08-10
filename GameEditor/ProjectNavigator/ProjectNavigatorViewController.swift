@@ -5,8 +5,7 @@
 //  Created by Nicolás Miari on 2022/08/07.
 //
 
-import Cocoa
-import CodableTree
+import AppKit
 
 /**
  How to set pane width: https://stackoverflow.com/a/41317631/433373
@@ -14,8 +13,6 @@ import CodableTree
 class ProjectNavigatorViewController: DocumentViewController {
 
   @IBOutlet private weak var outlineView: NSOutlineView!
-
-  lazy var projectTree: Node = Node(name: "Empty Project")
 
   private let pasteboardType = NSPasteboard.PasteboardType("com.nicolasmiari.gameproj.node")
 
@@ -34,8 +31,7 @@ class ProjectNavigatorViewController: DocumentViewController {
   override func viewDidAppear() {
     super.viewDidAppear()
 
-    if let document = document {
-      projectTree = document.projectConfiguration.projectTree
+    if document != nil {
       outlineView.reloadData()
     }
   }
@@ -126,8 +122,10 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   // MARK: - Read
 
   func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-    guard let document = document else { return 0 }
-    return document.numberOfChilden(in: outlineItem(for: item))
+    guard let document = document else {
+      return 0
+    }
+    return document.numberOfChildren(in: outlineItem(for: item))
   }
 
   func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
@@ -138,7 +136,7 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
     guard let document = document else { return false }
 
-    return document.numberOfChilden(in: outlineItem(for: item)) > 0
+    return document.numberOfChildren(in: outlineItem(for: item)) > 0
   }
 
   // MARK: - Edit
@@ -195,35 +193,6 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
     guard draggingIsLocalReorder(info: info) else {
       return NSDragOperation()
     }
-
-    /*
-    guard let nodes = draggedNodes else {
-      return NSDragOperation() // (this should not happen)
-    }
-    // Nil represents the root.
-    let targetNode = item as? Node ?? projectTree
-
-    // Can only drop on folders, never on files. And not on self!
-    guard targetNode.notIn(nodes), targetNode.isBranch else {
-      return NSDragOperation()
-    }
-
-    // TODO: Investigate why we need this
-    guard index != NSOutlineViewDropOnItemIndex else {
-      return NSDragOperation()
-    }
-
-    // The only drag and drop operations we allow are local reorder (not e.g. objects from outside).
-    guard draggingIsLocalReorder(info: info) else {
-      return NSDragOperation()
-    }
-
-    // Check if we are dropping the mode into one of its descendants (not allowed)
-    for draggedNode in draggedNodes! {
-      if targetNode.isDescendant(of: draggedNode) {
-        return NSDragOperation()
-      }
-    }*/
 
     info.animatesToDestination = true
     return .move
@@ -289,28 +258,7 @@ extension ProjectNavigatorViewController: NSOutlineViewDataSource {
   }
 }
 
-extension Node {
-  fileprivate func isDescendant(of otherNode: Node) -> Bool {
-    guard let parent = parent else {
-      return false
-    }
-    if parent == otherNode {
-      return true
-    }
-    return parent.isDescendant(of: otherNode)
-  }
-}
 
-
-extension Array where Element: Node {
-  /// Returns true if all elements have the same node as their parent.
-  var sameParent: Bool {
-    for node in self {
-      if node.parent != first?.parent { return false }
-    }
-    return true
-  }
-}
 
 extension Equatable {
   func notIn(_ array: [Self]) -> Bool {

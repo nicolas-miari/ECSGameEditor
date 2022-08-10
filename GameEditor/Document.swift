@@ -16,6 +16,10 @@ class Document: NSDocument {
   var resourceProvider: BinaryResourceProvider
   var scenes: [String: Scene]
 
+  var documentOutlineRootItem: DocumentOutlineItem!
+
+  var outlineItemCache: [ObjectIdentifier: DocumentOutlineItem] = [:]
+
   override init() {
     self.projectConfiguration = ProjectConfiguration()
     self.assetLibrary = AssetLibraryFactory.newLibrary()
@@ -23,6 +27,8 @@ class Document: NSDocument {
     self.scenes = [:]
 
     super.init()
+
+    setupDocumentOutlineRootItem(node: projectConfiguration.projectTree)
   }
 
   override class var autosavesInPlace: Bool {

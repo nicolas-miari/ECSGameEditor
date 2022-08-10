@@ -53,21 +53,21 @@ extension Node {
   static func debugProjectTree() -> Node {
     return Node(name: "Root", children: [
       Node(name: "Folder 1", children: [
-        Node(name: "File 1", payload: ""),
-        Node(name: "File 2", payload: ""),
-        Node(name: "Folder 4", children: [
+        Node(name: "File 1-1", payload: ""),
+        Node(name: "File 1-2", payload: ""),
+        Node(name: "Folder 1-1", children: [
         ]),
-        Node(name: "File 3", payload: ""),
+        Node(name: "File 1-3", payload: ""),
       ]),
       Node(name: "Folder 2", children: [
-        Node(name: "File 3", payload: ""),
-        Node(name: "File 4", payload: ""),
+        Node(name: "File 2-1", payload: ""),
+        Node(name: "File 2-2", payload: ""),
       ]),
       Node(name: "Folder 3", children: [
-        Node(name: "File 5", payload: ""),
-        Node(name: "File 6", payload: ""),
-        Node(name: "File 7", payload: ""),
-        Node(name: "File 8", payload: ""),
+        Node(name: "File 3-1", payload: ""),
+        Node(name: "File 3-2", payload: ""),
+        Node(name: "File 3-3", payload: ""),
+        Node(name: "File 4-4", payload: ""),
       ]),
     ])
   }
