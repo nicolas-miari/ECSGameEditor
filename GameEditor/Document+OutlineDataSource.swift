@@ -9,6 +9,166 @@ import AppKit
 import CodableTree
 import Asset
 
+// MARK: - Project Outline Data Source
+
+extension Document: NSOutlineViewDataSource {
+
+  // MARK: - Support
+
+  /**
+   Casts the unsafe Any/Any? arguments of the NSOutlineViewDataSource API to the concrete type
+   `DocumentOutlineItem` provided by the model controller, for convenience.
+   */
+  func outlineItem(for item: Any?) -> DocumentOutlineItem {
+    guard let outlineItem = item as? DocumentOutlineItem else {
+      return documentOutlineRootItem
+    }
+    return outlineItem
+  }
+
+  // MARK: - Data Source (Contents)
+
+  func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+    let contents = outlineItem(for: item).contents
+    switch contents {
+    case let node as Node:
+      return node.children.count
+    default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
+      fatalError("Unsupported outline view item content type: \(String(describing: type(of: contents)))")
+    }
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+    let contents = outlineItem(for: item).contents
+    switch contents {
+    case let node as Node:
+      return outlineItem(for: node.children[index])
+    default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
+      fatalError("Unsupported outline view item content type: \(String(describing: type(of: contents)))")
+    }
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+    let numberOfChildren = self.outlineView(outlineView, numberOfChildrenOfItem: item)
+    return numberOfChildren > 0
+  }
+
+  // MARK: - Data Source (Rename)
+
+  func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, byItem item: Any?) {
+    // TODO: Implement.
+  }
+
+  // MARK: - Drag to Reorder
+
+  var pasteboardType: NSPasteboard.PasteboardType {
+    return NSPasteboard.PasteboardType("com.nicolasmiari.gameproj.node")
+  }
+
+  private func draggingIsLocalReorder(in outlineView: NSOutlineView, info: NSDraggingInfo) -> Bool {
+    guard info.draggingSource as? NSOutlineView == outlineView else {
+      return false
+    }
+    guard projectOutlineDraggedItem != nil else {
+      return false
+    }
+    guard info.draggingPasteboard.availableType(from: [pasteboardType]) != nil else {
+      return false
+    }
+    return true
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+    let pasteboardItem = NSPasteboardItem()
+    pasteboardItem.setData(Data(), forType: pasteboardType)
+    return pasteboardItem
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+    // Disable dragging of multiple items: the handling is too complex and error prone. For now, let
+    // the user work around the limitation by groupping multiple items into a folder and dragging
+    // that instead to save time.
+    guard let draggedItem = draggedItems.first as? DocumentOutlineItem else {
+      fatalError("")
+    }
+    self.projectOutlineDraggedItem = draggedItem
+
+    session.draggingPasteboard.setData(Data(), forType: pasteboardType)
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+    self.projectOutlineDraggedItem = nil
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+    //Swift.print("Validate drop at index: \(index)")
+
+    guard let draggedItem = projectOutlineDraggedItem else {
+      return NSDragOperation() // (empty selection cannot be dragged)
+    }
+    let targetItem = outlineItem(for: item)
+
+    guard canMove(draggedItem, to: targetItem) else {
+      return NSDragOperation() // Model controller disallows operation.
+    }
+
+    // TODO: Investigate why we need this
+    guard index != NSOutlineViewDropOnItemIndex else {
+      return NSDragOperation()
+    }
+
+    // The only drag and drop operations we allow are local reorder (not e.g. objects from outside).
+    guard draggingIsLocalReorder(in: outlineView, info: info) else {
+      return NSDragOperation()
+    }
+
+    info.animatesToDestination = true
+    return .move
+  }
+
+  func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
+    guard let draggedItem = projectOutlineDraggedItem else {
+      return false // (empty selection cannot be dragged)
+    }
+    let targetItem = outlineItem(for: item)
+
+    guard let parent = self.parent(of: draggedItem), let currentIndex = indexInParent(of: draggedItem) else {
+      fatalError("Dragged item has no parent!")
+    }
+
+    // Begin with the requested drop index
+    var dropIndex = index
+
+    // If moving within the same parent and to a higher index, adjust:
+    if (parent == targetItem && currentIndex < dropIndex ) {
+      dropIndex -= 1
+    }
+
+    // [1] Update the outline view:
+    outlineView.beginUpdates()
+    outlineView.moveItem(at: currentIndex, inParent: parent, to: dropIndex, inParent: targetItem)
+    outlineView.endUpdates()
+
+    // [2] Update the data model
+    switch (draggedItem.contents, targetItem.contents) {
+    case (let draggedNode as Node, let targetNode as Node):
+      do {
+        try targetNode.insertChild(draggedNode, at: dropIndex)
+      } catch {
+        fatalError(error.localizedDescription)
+      }
+    default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
+      fatalError("Unsupported outline view item content type.")
+    }
+    return true
+  }
+
+  
+}
+
 /**
  The document exposes a tree of Nodes via this interface, for the UI layer to present.
 
@@ -43,26 +203,30 @@ extension Document {
     switch item.contents {
     case let node as Node:
       return node.children.count
-
     default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
       fatalError("Unsupported type \(String(describing: type(of: item.contents)))")
     }
   }
 
   func childItem(at index: Int, of item: DocumentOutlineItem) -> DocumentOutlineItem {
-    if let node = item.contents as? Node {
+    switch item.contents {
+    case let node as Node:
       return outlineItem(for: node.children[index])
+    default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
+      fatalError("Unsupported type \(String(describing: type(of: item.contents)))")
     }
-    // TODO: Implement for sub-node objects (Scene entities, entity components).
-    fatalError("Unsupported item type.")
   }
 
   func indexInParent(of item: DocumentOutlineItem) -> Int? {
-    if let node = item.contents as? Node {
+    switch item.contents {
+    case let node as Node:
       return node.indexInParent
+    default:
+      // TODO: Implement for sub-node objects (Scene entities, entity components).
+      fatalError("Unsupported type \(String(describing: type(of: item.contents)))")
     }
-    // TODO: Implement for sub-node objects (Scene entities, entity components).
-    fatalError("Unsupported item type.")
   }
 
   func parent(of item: DocumentOutlineItem) -> DocumentOutlineItem? {
@@ -72,99 +236,42 @@ extension Document {
         return nil
       }
       return outlineItem(for: parent)
-
     default:
       // TODO: Implement for sub-node objects (Scene entities, entity components).
       fatalError("Unsupported type \(String(describing: type(of: item.contents)))")
     }
   }
 
+  func canMove(_ item: DocumentOutlineItem, to tentativeParent: DocumentOutlineItem) -> Bool {
+    switch (item.contents, tentativeParent.contents) {
+    case (let itemNode as Node, let parentNode as Node):
+      guard parentNode != itemNode else {
+        Swift.print("Cannot drop node \(itemNode.name) as child of \(parentNode.name)")
+        return false
+      }
+      guard parentNode.isBranch else {
+        return false
+      }
+      return !parentNode.isDescendant(of: itemNode)
+    default:
+      fatalError("Unsupported item contents.")
+    }
+  }
+
   /**
-
+   Returns and array of the menu options that should be shown for the specified items.
    */
-  func groupItemsByParent(_ items: [DocumentOutlineItem], sortSiblings sortOrder: ComparisonResult = .orderedDescending) -> [[DocumentOutlineItem]] {
-    /**
-     This method is called as a result of a multiple-item drag and drop operation. This is only
-     allowed if all dragged items are of Node type (whether it's a folder, a scene, or an asset) so
-     it is safe to unwrap the contents of each outline item as a Node.
-     We cannot however map the DocumentOutlineItem instances themselves, because the outline view
-     might use object identity to implement continuity during moves.
-     */
-    let grouped = items.grouped { self.parent(of: $0)! }
+  func contextMenuItems(for items: [DocumentOutlineItem]) -> [NSMenuItem] {
+    // If all itmes have the same parent, provide an option to group them into a new folder.
 
-    return grouped.map { group in
-      return group.sorted { lhs, rhs in
-        guard let leftNode = lhs.contents as? Node, let rightNode = rhs.contents as? Node else {
-          fatalError("Unsupported item contents.")
-        }
-        guard leftNode.parent == rightNode.parent else {
-          fatalError("Nodes are not siblings.")
-        }
-        guard let leftIndex = leftNode.indexInParent, let rightIndex = rightNode.indexInParent else {
-          fatalError("Cannot sort orphan node(s) by index in parent.")
-        }
-        return leftIndex < rightIndex
-      }
-    }
-  }
+    // If there is a single folder item, provide the option to "dissolve it" and expand its contents
+    // in place.
 
-  func canMove(_ items: [DocumentOutlineItem], to tentativeParent: DocumentOutlineItem) -> Bool {
-    let contents = items.map { $0.contents }
-    if let nodes = contents as? [Node], let target = tentativeParent.contents as? Node {
-      /**
-       For nodes, check that we are not dropping an ancestor inside a descendant (would create a loop)
-       */
-      guard target.isBranch else {
-        return false
-      }
-      guard target.notIn(nodes) else {
-        return false
-      }
-      guard (nodes.first { target.isDescendant(of: $0) }) == nil else {
-        return false
-      }
+    // Regardless of the selection, provide an option to delete the affected items.
 
-      return true
-    }
-    return false
-  }
+    // Regardless of the selection, provide an option to create a new item (after prompt).
 
-  func moveItems(_ items: [DocumentOutlineItem], toIndex index: Int, of item: DocumentOutlineItem) {
-    /**
-     This method is called as a result of a multiple-item drag and drop operation. This is only
-     allowed if all dragged items are of Node type (whether it's a folder, a scene, or an asset) so
-     it is safe to unwrap the contents of each outline item as a Node.
-     */
-    let contents = items.map { $0.contents }
-
-    if let nodes = contents as? [Node], let target = item.contents as? Node {
-      nodes.grouped { $0.parent }.forEach { group in
-
-        //let dropIndex = target == group[0].parent ? index - 1 : index
-
-        let sorted = group.sorted {
-          guard let lhs = $0.indexInParent, let rhs = $1.indexInParent else {
-            fatalError("Cannot sort orphan node(s) by index in parent.")
-          }
-          return lhs > rhs
-        }
-        sorted.forEach {
-          if target == $0.parent && $0.indexInParent! < index {
-            try? target.insertChild($0, at: index - 1)
-          } else {
-            //$0.removeFromParent()
-            try? target.insertChild($0, at: index)
-          }
-        }
-      }
-    } else {
-      // TODO: Implement for sub-node objects (Scene entities, entity components).
-      fatalError("Unsupported type \(String(describing: type(of: contents)))")
-    }
-  }
-
-  func contextMenuForSelectedItems(_ items: [DocumentOutlineItem]) -> NSMenu? {
-    fatalError("Unimplemented")
+    return []
   }
 
 }
@@ -202,6 +309,14 @@ class DocumentOutlineItem: Equatable {
     return (lhs.contents as AnyObject) === (rhs.contents as AnyObject)
   }
 }
+
+/*
+struct DocumentOutlineMenuAction {
+  let title: String
+  let block: ([DocumentOutlineItem]) -> Void
+}*/
+
+// MARK: -
 
 /**
  A protocol for the represented types (Node, Scene) to conform to.

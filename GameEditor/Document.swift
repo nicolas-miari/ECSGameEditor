@@ -16,9 +16,13 @@ class Document: NSDocument {
   var resourceProvider: BinaryResourceProvider
   var scenes: [String: Scene]
 
-  var documentOutlineRootItem: DocumentOutlineItem!
+  // MARK: Stored Properties Supporting Outline Data Source
 
+  var documentOutlineRootItem: DocumentOutlineItem!
   var outlineItemCache: [ObjectIdentifier: DocumentOutlineItem] = [:]
+  var projectOutlineDraggedItem: DocumentOutlineItem?
+
+  // MARK: -
 
   override init() {
     self.projectConfiguration = ProjectConfiguration()
