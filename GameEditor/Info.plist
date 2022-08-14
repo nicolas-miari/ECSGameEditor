@@ -16,7 +16,7 @@
 				<string>com.nicolasmiari.gameproj</string>
 			</array>
 			<key>NSDocumentClass</key>
-			<string>$(PRODUCT_MODULE_NAME).Document</string>
+			<string>ProjectDocument.Document</string>
 		</dict>
 	</array>
 	<key>UTExportedTypeDeclarations</key>

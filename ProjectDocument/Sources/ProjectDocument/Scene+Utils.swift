@@ -7,23 +7,9 @@
 
 import Foundation
 import Component
+import Scene
 
-/**
- Represents one scene within a game editor project.
-
- A scene in the editor consists of a list of entities, each with one or more components attached.
- */
-class Scene: Codable, Identifiable {
-
-  typealias ID = UUID
-
-  private var entities: [UUID: ComponentList] = [:]
-
-  let id: ID
-
-  init() {
-    self.id = UUID()
-  }
+extension Scene {
 
   // MARK: - Serialization
 

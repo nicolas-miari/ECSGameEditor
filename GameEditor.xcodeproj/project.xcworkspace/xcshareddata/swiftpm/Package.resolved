@@ -41,7 +41,79 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/Component.git",
       "state" : {
-        "revision" : "e73ab87eea503e560077be79c1afd4b7582eda3a",
+        "revision" : "0d9817c438eb1b12720ac6376d24bc028bcfc2fd",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "dynamics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Dynamics.git",
+      "state" : {
+        "revision" : "f8fa07a70d4ee4d70f7d0f4d32ac2e97fab4fbe6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "entity",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Entity.git",
+      "state" : {
+        "revision" : "8179833d52589c75d8a9a443f47655d35d01484a",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "identifier",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Identifier.git",
+      "state" : {
+        "revision" : "c942cc5dd28c5f3b03602c5fd78d2995047e5907",
+        "version" : "0.0.1"
+      }
+    },
+    {
+      "identity" : "matrixutils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/MatrixUtils.git",
+      "state" : {
+        "revision" : "8f2363edca6bd853f5d38034a3314fe5584a6163",
+        "version" : "0.0.0"
+      }
+    },
+    {
+      "identity" : "rigidbody",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/RigidBody.git",
+      "state" : {
+        "revision" : "44217cc927c8ee26f5a7d68facec3321fe482339",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "scene",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Scene",
+      "state" : {
+        "revision" : "1a377b0b483f28a6e3cde9ba255165935f99eda4",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/System.git",
+      "state" : {
+        "revision" : "7d5527790f01520a63ad5dd8ba993a605c1120e8",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "transform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/Transform.git",
+      "state" : {
+        "revision" : "14417494fd290fc7179e628bb7b135b1e8fe0de4",
         "version" : "1.0.0"
       }
     }

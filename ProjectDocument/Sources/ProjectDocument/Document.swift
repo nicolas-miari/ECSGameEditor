@@ -5,11 +5,12 @@
 //  Created by Nicolás Miari on 2022/08/07.
 //
 
-import Cocoa
+import AppKit
 import AssetLibrary
 import BinaryResourceProvider
+import Scene
 
-class Document: NSDocument {
+public final class Document: NSDocument {
 
   var projectConfiguration: ProjectConfiguration
   var assetLibrary: AssetLibrary
@@ -24,7 +25,7 @@ class Document: NSDocument {
 
   // MARK: -
 
-  override init() {
+  public override init() {
     self.projectConfiguration = ProjectConfiguration()
     self.assetLibrary = AssetLibraryFactory.newLibrary()
     self.resourceProvider = BinaryResourceProviderFactory.newResourceProvider()
@@ -35,18 +36,18 @@ class Document: NSDocument {
     setupDocumentOutlineRootItem(node: projectConfiguration.projectTree)
   }
 
-  override class var autosavesInPlace: Bool {
+  public override class var autosavesInPlace: Bool {
     return true
   }
 
-  override func makeWindowControllers() {
+  public override func makeWindowControllers() {
     // Returns the Storyboard that contains your Document window.
     let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
     let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as! NSWindowController
     self.addWindowController(windowController)
   }
 
-  override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+  public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
     let sceneDirectories = try scenes.mapValues {
       try $0.directoryWrapper()
     }
@@ -63,7 +64,7 @@ class Document: NSDocument {
     ])
   }
 
-  override func read(from fileWrapper: FileWrapper, ofType typeName: String) throws {
+  public override func read(from fileWrapper: FileWrapper, ofType typeName: String) throws {
     // 1. Read all scenes, asset library items, and binary resources from wrapper.
     guard let scenesDirectory = fileWrapper.fileWrappers?[.scenesDirectoryName] else {
       throw DocumentError.corruptedPackage(detailedInfo: "")
@@ -88,7 +89,7 @@ class Document: NSDocument {
     self.projectConfiguration = try JSONDecoder().decode(ProjectConfiguration.self, from: projectConfigurationData)
   }
 
-  override var isEntireFileLoaded: Bool {
+  public override var isEntireFileLoaded: Bool {
     return true
   }
 
@@ -106,7 +107,7 @@ class Document: NSDocument {
 }
 
 
-enum DocumentError: LocalizedError {
+public enum DocumentError: LocalizedError {
   case corruptedPackage(detailedInfo: String)
 }
 // MARK: - Supporting Extensions

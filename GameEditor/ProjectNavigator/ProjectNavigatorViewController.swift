@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import ProjectDocument
 
 /**
  How to set pane width: https://stackoverflow.com/a/41317631/433373
@@ -14,7 +15,6 @@ class ProjectNavigatorViewController: DocumentViewController {
 
   @IBOutlet private weak var outlineView: NSOutlineView!
 
-  private let pasteboardType = NSPasteboard.PasteboardType("com.nicolasmiari.gameproj.node")
   private var draggetOutlineItems: [DocumentOutlineItem]?
   private let contextMenu = NSMenu(title: "Context")
 
@@ -23,7 +23,6 @@ class ProjectNavigatorViewController: DocumentViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    outlineView.registerForDraggedTypes([pasteboardType])
     outlineView.draggingDestinationFeedbackStyle = .sourceList
     outlineView.menu = contextMenu
     contextMenu.delegate = self

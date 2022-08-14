@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import ProjectDocument
 
 class DocumentViewController: NSViewController {
 

@@ -28,7 +28,7 @@ extension Document: NSOutlineViewDataSource {
 
   // MARK: - Data Source (Contents)
 
-  func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+  public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
     let contents = outlineItem(for: item).contents
     switch contents {
     case let node as Node:
@@ -39,7 +39,7 @@ extension Document: NSOutlineViewDataSource {
     }
   }
 
-  func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+  public func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
     let contents = outlineItem(for: item).contents
     switch contents {
     case let node as Node:
@@ -50,20 +50,20 @@ extension Document: NSOutlineViewDataSource {
     }
   }
 
-  func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+  public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
     let numberOfChildren = self.outlineView(outlineView, numberOfChildrenOfItem: item)
     return numberOfChildren > 0
   }
 
   // MARK: - Data Source (Rename)
 
-  func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, byItem item: Any?) {
+  public func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, byItem item: Any?) {
     // TODO: Implement.
   }
 
   // MARK: - Drag to Reorder
 
-  var pasteboardType: NSPasteboard.PasteboardType {
+  public var pasteboardType: NSPasteboard.PasteboardType {
     return NSPasteboard.PasteboardType("com.nicolasmiari.gameproj.node")
   }
 
@@ -80,13 +80,13 @@ extension Document: NSOutlineViewDataSource {
     return true
   }
 
-  func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+  public func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
     let pasteboardItem = NSPasteboardItem()
     pasteboardItem.setData(Data(), forType: pasteboardType)
     return pasteboardItem
   }
 
-  func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
     // Disable dragging of multiple items: the handling is too complex and error prone. For now, let
     // the user work around the limitation by groupping multiple items into a folder and dragging
     // that instead to save time.
@@ -98,11 +98,11 @@ extension Document: NSOutlineViewDataSource {
     session.draggingPasteboard.setData(Data(), forType: pasteboardType)
   }
 
-  func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
     self.projectOutlineDraggedItem = nil
   }
 
-  func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+  public func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
     //Swift.print("Validate drop at index: \(index)")
 
     guard let draggedItem = projectOutlineDraggedItem else {
@@ -128,7 +128,7 @@ extension Document: NSOutlineViewDataSource {
     return .move
   }
 
-  func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
+  public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
     guard let draggedItem = projectOutlineDraggedItem else {
       return false // (empty selection cannot be dragged)
     }
@@ -266,7 +266,7 @@ extension Document {
 
  Equatable Conformance: Two instances compare as equal if they both wrap same opaque object.
 */
-class DocumentOutlineItem: Equatable {
+public final class DocumentOutlineItem: Equatable {
 
   // The title text to use when displaying the item.
   public var title: String {
@@ -284,7 +284,7 @@ class DocumentOutlineItem: Equatable {
     self.contents = contents
   }
 
-  static func == (lhs: DocumentOutlineItem, rhs: DocumentOutlineItem) -> Bool {
+  public static func == (lhs: DocumentOutlineItem, rhs: DocumentOutlineItem) -> Bool {
     /**
      Both wrapped objects might be of different concrete types, but they're guaranteed to be
      reference types by the AnyObject constraint on DocumentItem; so compare the memory addresses:
@@ -312,27 +312,6 @@ private protocol DocumentItem: AnyObject, Equatable {
 }
 
 extension Node: DocumentItem {
-}
-
-fileprivate struct SiblingNodeComparator: SortComparator {
-
-  var order: SortOrder
-
-  typealias Compared = Node
-
-  func compare(_ lhs: Node, _ rhs: Node) -> ComparisonResult {
-    guard lhs.parent == rhs.parent else {
-      fatalError("Nodes are not siblings")
-    }
-    let leftIndex = lhs.indexInParent ?? -1
-    let rightIndex = rhs.indexInParent ?? -1
-    switch order {
-    case .forward:
-      return leftIndex < rightIndex ? .orderedAscending : .orderedDescending
-    case .reverse:
-      return leftIndex > rightIndex ? .orderedAscending : .orderedDescending
-    }
-  }
 }
 
 extension Node {

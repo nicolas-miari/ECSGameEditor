@@ -10,9 +10,9 @@ import CodableTree
 
 extension Document {
 
-  struct MenuItemDescriptor {
+  public struct MenuItemDescriptor {
     /** Constants enumerating the possible values of `itemType`.*/
-    enum ItemType {
+    public enum ItemType {
       /** The menu item is actionable, and should be identified using the associated tag.*/
       case action(_ tag: MenuItemTag)
 
@@ -26,13 +26,13 @@ extension Document {
     }
 
     /** The string displayed for the menu item. */
-    let title: String
+    public let title: String
 
     /** The kind of menu item represented. */
-    let itemType: ItemType
+    public let itemType: ItemType
   }
 
-  enum MenuItemTag: Int {
+  public enum MenuItemTag: Int {
 
     /**
      Menu option to group the affected tems into a new folder. Available for any non-mepty
@@ -68,7 +68,7 @@ extension Document {
 
   }
 
-  func menuItemDescriptors(for items: [DocumentOutlineItem]) -> [MenuItemDescriptor] {
+  public func menuItemDescriptors(for items: [DocumentOutlineItem]) -> [MenuItemDescriptor] {
     var descriptors: [MenuItemDescriptor] = []
 
     // Always include the delete item.
@@ -99,10 +99,10 @@ extension Document {
     return descriptors
   }
 
-  typealias ContextMenuCompletionHandler =
+  public typealias ContextMenuCompletionHandler =
     (_ addedItems: [DocumentOutlineItem], _ removedItems: [DocumentOutlineItem]) -> Void
 
-  func projectOutlineMenuSelectedItem(
+  public func projectOutlineMenuSelectedItem(
     tag: Int, items: [DocumentOutlineItem], completion: @escaping ContextMenuCompletionHandler) {
     guard let option = MenuItemTag(rawValue: tag) else {
       fatalError("Unsupported operation (tag: \(tag)")
@@ -150,6 +150,7 @@ extension Document {
   }
 }
 
+/*
 struct NodeMoveOperation {
   let srcIndex: Int
   let srcParent: Node
@@ -159,4 +160,4 @@ struct NodeMoveOperation {
   func reversed() -> NodeMoveOperation {
     return NodeMoveOperation(srcIndex: dstIndex, srcParent: dstParent, dstIndex: srcIndex, dstParent: srcParent)
   }
-}
+}*/
