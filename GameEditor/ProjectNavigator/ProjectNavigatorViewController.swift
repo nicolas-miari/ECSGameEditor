@@ -69,17 +69,36 @@ extension ProjectNavigatorViewController: NSOutlineViewDelegate {
 extension ProjectNavigatorViewController: NSMenuDelegate {
   // Thanks https://stackoverflow.com/a/65105980/433373
   func menuNeedsUpdate(_ menu: NSMenu) {
+    menu.removeAllItems()
+
     let indices = outlineView.contextMenuIndices
     let items = indices.map { outlineView.item(atRow: $0) as! DocumentOutlineItem }
-    let menuItems = document?.contextMenuItems(for: items)
-
-    menu.removeAllItems()
-    //menuItems?.forEach({
-    //
-    //})
+    let menuItemDescriptors = document?.menuItemDescriptors(for: items) ?? []
+    let menuItems = self.menuItems(from: menuItemDescriptors)
+    menu.items = menuItems
   }
 
   // MARK: Support
+
+  func menuItems(from descriptors: [Document.MenuItemDescriptor]) -> [NSMenuItem] {
+    return descriptors.map {
+      switch $0.itemType {
+      case .action(let tag):
+        let item = NSMenuItem(title: $0.title, action: #selector(handleContextMenuItem(_:)), keyEquivalent: "")
+        item.tag = tag.rawValue
+        return item
+
+      case .submenu(let children):
+        let item = NSMenuItem(title: $0.title, action: nil, keyEquivalent: "")
+        // Create item's submenu by recursing on children:
+        item.submenu = NSMenu(title: $0.title, items: menuItems(from: children))
+        return item
+
+      case .separator:
+        return NSMenuItem.separator()
+      }
+    }
+  }
 
   func outlineItems(atIndices indices: IndexSet) -> [DocumentOutlineItem] {
     return indices.compactMap { outlineView.item(atRow: $0) as? DocumentOutlineItem }
@@ -109,5 +128,12 @@ extension NSOutlineView {
       indices = [clickedRow]
     }
     return indices
+  }
+}
+
+extension NSMenu {
+  convenience init(title: String, items: [NSMenuItem]) {
+    self.init(title: title)
+    self.items = items
   }
 }

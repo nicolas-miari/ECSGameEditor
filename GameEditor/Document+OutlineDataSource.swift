@@ -257,23 +257,6 @@ extension Document {
       fatalError("Unsupported item contents.")
     }
   }
-
-  /**
-   Returns and array of the menu options that should be shown for the specified items.
-   */
-  func contextMenuItems(for items: [DocumentOutlineItem]) -> [NSMenuItem] {
-    // If all itmes have the same parent, provide an option to group them into a new folder.
-
-    // If there is a single folder item, provide the option to "dissolve it" and expand its contents
-    // in place.
-
-    // Regardless of the selection, provide an option to delete the affected items.
-
-    // Regardless of the selection, provide an option to create a new item (after prompt).
-
-    return []
-  }
-
 }
 
 // MARK: - Supporting Types

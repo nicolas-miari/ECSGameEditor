@@ -10,6 +10,28 @@ import CodableTree
 
 extension Document {
 
+  struct MenuItemDescriptor {
+    /** Constants enumerating the possible values of `itemType`.*/
+    enum ItemType {
+      /** The menu item is actionable, and should be identified using the associated tag.*/
+      case action(_ tag: MenuItemTag)
+
+      /**
+       The menu item is a submenu; choosing it triggers no action but instead displays the items in
+       the associated array.
+       */
+      case submenu(_ children: [MenuItemDescriptor])
+
+      case separator
+    }
+
+    /** The string displayed for the menu item. */
+    let title: String
+
+    /** The kind of menu item represented. */
+    let itemType: ItemType
+  }
+
   enum MenuItemTag: Int {
 
     /**
@@ -44,6 +66,37 @@ extension Document {
      */
     case addNewAssetFromResourceFile = 5
 
+  }
+
+  func menuItemDescriptors(for items: [DocumentOutlineItem]) -> [MenuItemDescriptor] {
+    var descriptors: [MenuItemDescriptor] = []
+
+    // Always include the delete item.
+    if items.count == 1 {
+      let title = items[0].title
+      descriptors.append(MenuItemDescriptor(title: "Delete \"\(title)\"", itemType: .action(.deleteSelectedItems)))
+    } else {
+      descriptors.append(MenuItemDescriptor(title: "Delete items", itemType: .action(.deleteSelectedItems)))
+    }
+
+    // If single selection, include the New... submenu.
+    if items.count == 1 {
+      descriptors.append(MenuItemDescriptor(title: "", itemType: .separator))
+      let addScene = MenuItemDescriptor(title: "Scene", itemType: .action(.addNewScene))
+      let addAsset = MenuItemDescriptor(title: "Asset...", itemType: .action(.addNewAssetFromResourceFile))
+      let addMenu = MenuItemDescriptor(title: "Add", itemType: .submenu([addScene, addAsset]))
+      descriptors.append(addMenu)
+    }
+
+    // If all items are siblings, include Group...
+    //if let nodes = items.map { $0.content } as? [Node], nodes.sameParent {
+    //  let group = MenuItemDescriptor(title: "New Group from Selection", itemType: .action(.groupSelectedItems))
+    //  descriptors.append(group)
+    //}
+
+    // If all items are unrelated folders, include the Dissolve groups option.
+
+    return descriptors
   }
 
   typealias ContextMenuCompletionHandler =
