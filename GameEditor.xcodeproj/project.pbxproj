@@ -12,6 +12,7 @@
 		1F30941F28A7BBD3007F8B50 /* Node+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30941E28A7BBD3007F8B50 /* Node+Utils.swift */; };
 		1F30942528A8A4A7007F8B50 /* ProjectDocument in Frameworks */ = {isa = PBXBuildFile; productRef = 1F30942428A8A4A7007F8B50 /* ProjectDocument */; };
 		1F8E065F28A8C566009FDBE0 /* Scene in Frameworks */ = {isa = PBXBuildFile; productRef = 1F8E065E28A8C566009FDBE0 /* Scene */; };
+		1F8E066228A90E46009FDBE0 /* EditorScene in Frameworks */ = {isa = PBXBuildFile; productRef = 1F8E066128A90E46009FDBE0 /* EditorScene */; };
 		1F98097B289F5B70003845DB /* CodableTree in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097A289F5B70003845DB /* CodableTree */; };
 		1F98097E289F5C30003845DB /* AssetLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097D289F5C30003845DB /* AssetLibrary */; };
 		1F980981289F5C57003845DB /* BinaryResourceProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 1F980980289F5C57003845DB /* BinaryResourceProvider */; };
@@ -31,6 +32,7 @@
 		1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Utils.swift"; sourceTree = "<group>"; };
 		1F30941E28A7BBD3007F8B50 /* Node+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Node+Utils.swift"; sourceTree = "<group>"; };
 		1F30942228A8A3EA007F8B50 /* ProjectDocument */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProjectDocument; sourceTree = "<group>"; };
+		1F8E066028A90E08009FDBE0 /* EditorScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EditorScene; sourceTree = "<group>"; };
 		1F980985289F61F5003845DB /* SampleSceneData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SampleSceneData.json; sourceTree = "<group>"; };
 		1FB0882A289F59C2008DDB3B /* GameEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB0882D289F59C2008DDB3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				1F8E065F28A8C566009FDBE0 /* Scene in Frameworks */,
 				1F30942528A8A4A7007F8B50 /* ProjectDocument in Frameworks */,
 				1F98097E289F5C30003845DB /* AssetLibrary in Frameworks */,
+				1F8E066228A90E46009FDBE0 /* EditorScene in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +100,7 @@
 		1FB08821289F59C2008DDB3B = {
 			isa = PBXGroup;
 			children = (
+				1F8E066028A90E08009FDBE0 /* EditorScene */,
 				1F30942228A8A3EA007F8B50 /* ProjectDocument */,
 				1FB0882C289F59C2008DDB3B /* GameEditor */,
 				1FB0882B289F59C2008DDB3B /* Products */,
@@ -161,6 +165,7 @@
 				1F98098A289FA0C1003845DB /* Component */,
 				1F30942428A8A4A7007F8B50 /* ProjectDocument */,
 				1F8E065E28A8C566009FDBE0 /* Scene */,
+				1F8E066128A90E46009FDBE0 /* EditorScene */,
 			);
 			productName = GameEditor;
 			productReference = 1FB0882A289F59C2008DDB3B /* GameEditor.app */;
@@ -493,6 +498,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1F8E065D28A8C566009FDBE0 /* XCRemoteSwiftPackageReference "Scene" */;
 			productName = Scene;
+		};
+		1F8E066128A90E46009FDBE0 /* EditorScene */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EditorScene;
 		};
 		1F98097A289F5B70003845DB /* CodableTree */ = {
 			isa = XCSwiftPackageProductDependency;

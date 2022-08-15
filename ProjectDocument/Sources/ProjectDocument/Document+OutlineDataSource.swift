@@ -8,6 +8,7 @@
 import AppKit
 import CodableTree
 import Asset
+import EditorScene
 
 // MARK: - Project Outline Data Source
 
@@ -33,6 +34,7 @@ extension Document: NSOutlineViewDataSource {
     switch contents {
     case let node as Node:
       return node.children.count
+
     default:
       // TODO: Implement for sub-node objects (Scene entities, entity components).
       fatalError("Unsupported outline view item content type: \(String(describing: type(of: contents)))")
@@ -57,7 +59,8 @@ extension Document: NSOutlineViewDataSource {
 
   // MARK: - Data Source (Rename)
 
-  public func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, byItem item: Any?) {
+  public func outlineView(_ outlineView: NSOutlineView, setObjectValue object: Any?,
+    for tableColumn: NSTableColumn?, byItem item: Any?) {
     // TODO: Implement.
   }
 
@@ -80,13 +83,17 @@ extension Document: NSOutlineViewDataSource {
     return true
   }
 
-  public func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+  public func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any)
+    -> NSPasteboardWriting? {
+
     let pasteboardItem = NSPasteboardItem()
     pasteboardItem.setData(Data(), forType: pasteboardType)
     return pasteboardItem
   }
 
-  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession,
+    willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+
     // Disable dragging of multiple items: the handling is too complex and error prone. For now, let
     // the user work around the limitation by groupping multiple items into a folder and dragging
     // that instead to save time.
@@ -98,12 +105,14 @@ extension Document: NSOutlineViewDataSource {
     session.draggingPasteboard.setData(Data(), forType: pasteboardType)
   }
 
-  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+  public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession,
+    endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+
     self.projectOutlineDraggedItem = nil
   }
 
-  public func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-    //Swift.print("Validate drop at index: \(index)")
+  public func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo,
+    proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
 
     guard let draggedItem = projectOutlineDraggedItem else {
       return NSDragOperation() // (empty selection cannot be dragged)
@@ -128,7 +137,9 @@ extension Document: NSOutlineViewDataSource {
     return .move
   }
 
-  public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
+  public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?,
+    childIndex index: Int) -> Bool {
+
     guard let draggedItem = projectOutlineDraggedItem else {
       return false // (empty selection cannot be dragged)
     }
@@ -196,7 +207,7 @@ extension Document {
 
   func numberOfChildren(in item: DocumentOutlineItem) -> Int {
     /**
-     If the item is a folder node, imply return its child count.
+     If the item is a folder node, simply return its child count.
      If the item is a leaf node representing a scene, return its entity count.
      If the item is a library asset, return 0.
      */
@@ -261,58 +272,7 @@ extension Document {
 
 // MARK: - Supporting Types
 
-/**
- A concrete class type wrapping the represented types, for the UI to handle.
 
- Equatable Conformance: Two instances compare as equal if they both wrap same opaque object.
-*/
-public final class DocumentOutlineItem: Equatable {
-
-  // The title text to use when displaying the item.
-  public var title: String {
-    return contents.name
-  }
-
-  public var imageName: String {
-    return "" // TODO: Implement
-  }
-
-  /// The wrapped object. It can be of any type that conforms to `DocumentItem`.
-  fileprivate let contents: any DocumentItem
-
-  fileprivate init(contents: any DocumentItem) {
-    self.contents = contents
-  }
-
-  public static func == (lhs: DocumentOutlineItem, rhs: DocumentOutlineItem) -> Bool {
-    /**
-     Both wrapped objects might be of different concrete types, but they're guaranteed to be
-     reference types by the AnyObject constraint on DocumentItem; so compare the memory addresses:
-     */
-    return (lhs.contents as AnyObject) === (rhs.contents as AnyObject)
-  }
-}
-
-/*
-struct DocumentOutlineMenuAction {
-  let title: String
-  let block: ([DocumentOutlineItem]) -> Void
-}*/
-
-// MARK: -
-
-/**
- A protocol for the represented types (Node, Scene) to conform to.
-
- Conforming types must be reference types so that variables of existential types can be compared
- using object identity.
- */
-private protocol DocumentItem: AnyObject, Equatable {
-  var name: String { get }
-}
-
-extension Node: DocumentItem {
-}
 
 extension Node {
   fileprivate func isDescendant(of otherNode: Node) -> Bool {

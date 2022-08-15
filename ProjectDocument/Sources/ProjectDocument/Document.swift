@@ -23,7 +23,7 @@ public final class Document: NSDocument {
   var outlineItemCache: [ObjectIdentifier: DocumentOutlineItem] = [:]
   var projectOutlineDraggedItem: DocumentOutlineItem?
 
-  // MARK: -
+  // MARK: - NSDocument
 
   public override init() {
     self.projectConfiguration = ProjectConfiguration()
@@ -92,6 +92,8 @@ public final class Document: NSDocument {
   public override var isEntireFileLoaded: Bool {
     return true
   }
+
+  // MARK: -
 
   private func readScenes(from directory: FileWrapper) throws -> [String: Scene] {
     guard let sceneDirectories = directory.fileWrappers else {

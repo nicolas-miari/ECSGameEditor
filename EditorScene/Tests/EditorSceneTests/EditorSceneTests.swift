@@ -1,11 +1,11 @@
 import XCTest
-@testable import ProjectDocument
+@testable import EditorScene
 
-final class ProjectDocumentTests: XCTestCase {
+final class EditorSceneTests: XCTestCase {
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(ProjectDocument().text, "Hello, World!")
+        XCTAssertEqual(EditorScene().text, "Hello, World!")
     }
 }

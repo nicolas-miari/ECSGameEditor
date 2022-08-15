@@ -12,7 +12,7 @@ import CodableTree
  The project configuration contains all the state needed to edit a game but discarded when
  exporting, such as the custom folder grouping of scenes and assets.
  */
-struct ProjectConfiguration: Codable {
+internal struct ProjectConfiguration: Codable {
 
   /**
    Tree structure describing the grouping of all the project's game scenes and library assets.
