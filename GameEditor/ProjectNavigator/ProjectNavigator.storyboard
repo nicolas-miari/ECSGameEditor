@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21179.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21223" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21179.7"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21223"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +21,7 @@
                                     <rect key="frame" x="1" y="1" width="448" height="685"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" rowSizeStyle="automatic" headerView="2yi-Z2-pgS" viewBased="YES" indentationPerLevel="13" outlineTableColumn="UHI-ih-rq8" id="NJE-xW-biY">
+                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" usesAutomaticRowHeights="YES" headerView="2yi-Z2-pgS" viewBased="YES" indentationPerLevel="13" outlineTableColumn="UHI-ih-rq8" id="NJE-xW-biY">
                                             <rect key="frame" x="0.0" y="0.0" width="448" height="657"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
@@ -40,24 +40,37 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="NameCell" id="mtv-Sy-1cF">
+                                                        <tableCellView identifier="NameCell" misplaced="YES" id="mtv-Sy-1cF">
                                                             <rect key="frame" x="8" y="0.0" width="431" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="5HY-qQ-9ZN">
-                                                                    <rect key="frame" x="0.0" y="4" width="96" height="16"/>
+                                                                    <rect key="frame" x="30" y="8" width="96" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="La2-lh-Gg5">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yvu-9Q-IcS">
+                                                                    <rect key="frame" x="4" y="2" width="24.5" height="29"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="24" id="5eJ-bk-8A2"/>
+                                                                        <constraint firstAttribute="width" secondItem="Yvu-9Q-IcS" secondAttribute="height" multiplier="1:1" id="PTE-z5-xYC"/>
+                                                                    </constraints>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="folder.fill" catalog="system" id="Vka-lb-TOT"/>
+                                                                    <color key="contentTintColor" red="0.098039215686274508" green="0.70945151839103793" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="5HY-qQ-9ZN" firstAttribute="leading" secondItem="mtv-Sy-1cF" secondAttribute="leading" constant="2" id="Lny-fb-b7M"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Yvu-9Q-IcS" secondAttribute="bottom" constant="4" id="7f7-EN-fwx"/>
+                                                                <constraint firstItem="Yvu-9Q-IcS" firstAttribute="leading" secondItem="mtv-Sy-1cF" secondAttribute="leading" constant="4" id="XWo-Vc-koe"/>
+                                                                <constraint firstItem="5HY-qQ-9ZN" firstAttribute="leading" secondItem="Yvu-9Q-IcS" secondAttribute="trailing" constant="4" id="hPR-Mj-Rbe"/>
                                                                 <constraint firstItem="5HY-qQ-9ZN" firstAttribute="centerY" secondItem="mtv-Sy-1cF" secondAttribute="centerY" id="mVa-R7-0Cr"/>
+                                                                <constraint firstItem="Yvu-9Q-IcS" firstAttribute="top" secondItem="mtv-Sy-1cF" secondAttribute="top" constant="4" id="wYa-jt-5rt"/>
                                                             </constraints>
                                                             <connections>
+                                                                <outlet property="imageView" destination="Yvu-9Q-IcS" id="NmP-Nc-jGX"/>
                                                                 <outlet property="textField" destination="5HY-qQ-9ZN" id="b37-z3-EDK"/>
                                                             </connections>
                                                         </tableCellView>
@@ -94,4 +107,7 @@
             <point key="canvasLocation" x="-170" y="132.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="folder.fill" catalog="system" width="18" height="14"/>
+    </resources>
 </document>

@@ -41,10 +41,8 @@ extension Document: NSOutlineViewDataSource {
    expanded); nil means the item does not accept children (no disclosure indicator).
    */
   func children(forItem item: Any?) -> [Node]? {
-    guard let node = item as? Node else {
-      // Nil represents the root item of the outline view.
-      return projectConfiguration.projectTree.children
-    }
+    let node = self.node(forItem: item)
+
     guard let value = node.value else {
       // No value means the node is a strict branch node: it can only be a folder grouping scenes,
       // assets, or other folders.
@@ -55,7 +53,7 @@ extension Document: NSOutlineViewDataSource {
     // whether it has "children".
     if let scene = scenes[value] {
       // TODO: Return the scene's root node children
-      return []
+      return nil
     }
 
     // TODO: Determine how to identify a scene entity
@@ -127,13 +125,7 @@ extension Document: NSOutlineViewDataSource {
   public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession,
     willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
 
-    // Disable dragging of multiple items: the handling is too complex and error prone. For now, let
-    // the user work around the limitation by groupping multiple items into a folder and dragging
-    // that instead to save time.
-    guard let draggedItem = draggedItems.first as? DocumentOutlineItem else {
-      fatalError("")
-    }
-    self.projectOutlineDraggedItem = draggedItem
+    self.projectOutlineDraggedItem = node(forItem: draggedItems.first)
 
     session.draggingPasteboard.setData(Data(), forType: pasteboardType)
   }
@@ -150,9 +142,10 @@ extension Document: NSOutlineViewDataSource {
     guard let draggedItem = projectOutlineDraggedItem else {
       return NSDragOperation() // (empty selection cannot be dragged)
     }
-    let targetItem = outlineItem(for: item)
+    let draggedNode = node(forItem: draggedItem)
+    let targetNode = node(forItem: item)
 
-    guard canMove(draggedItem, to: targetItem) else {
+    guard canMove(draggedNode, to: targetNode) else {
       return NSDragOperation() // Model controller disallows operation.
     }
 
@@ -176,38 +169,45 @@ extension Document: NSOutlineViewDataSource {
     guard let draggedItem = projectOutlineDraggedItem else {
       return false // (empty selection cannot be dragged)
     }
-    let targetItem = outlineItem(for: item)
+    let draggedNode = node(forItem: draggedItem)
+    let targetNode = node(forItem: item)
 
-    guard let parent = self.parent(of: draggedItem), let currentIndex = indexInParent(of: draggedItem) else {
+    guard let parent = draggedNode.parent, let srcIndex = draggedNode.indexInParent else {
       fatalError("Dragged item has no parent!")
     }
 
     // Begin with the requested drop index
-    var dropIndex = index
+    var dstIndex = index
 
     // If moving within the same parent and to a higher index, adjust:
-    if (parent == targetItem && currentIndex < dropIndex ) {
-      dropIndex -= 1
+    if (parent == targetNode && srcIndex < dstIndex ) {
+      dstIndex -= 1
     }
 
     // [1] Update the outline view:
-    outlineView.beginUpdates()
-    outlineView.moveItem(at: currentIndex, inParent: parent, to: dropIndex, inParent: targetItem)
-    outlineView.endUpdates()
+    outlineView.moveItem(at: srcIndex, inParent: parent, to: dstIndex, inParent: targetNode)
 
     // [2] Update the data model
-    switch (draggedItem.contents, targetItem.contents) {
-    case (let draggedNode as Node, let targetNode as Node):
-      do {
-        try targetNode.insertChild(draggedNode, at: dropIndex)
-      } catch {
-        fatalError(error.localizedDescription)
-      }
-    default:
-      // TODO: Implement for sub-node objects (Scene entities, entity components).
-      fatalError("Unsupported outline view item content type.")
-    }
+    targetNode.insertChild(draggedNode, at: dstIndex)
+
     return true
+  }
+}
+
+// MARK: - View Model
+
+extension Document {
+
+  public func viewModel(forItem item: Any) -> DocumentOutlineViewModel {
+    let node = self.node(forItem: item)
+
+    guard let value = node.value else {
+      // Folder node
+      return DocumentOutlineViewModel(title: node.name, icon: .folder)
+    }
+
+    // TODO: implement properly
+    return DocumentOutlineViewModel(title: node.name, icon: .scene)
   }
 }
 
@@ -284,7 +284,7 @@ extension Document {
     }
   }
 
-  func canMove(_ item: DocumentOutlineItem, to tentativeParent: DocumentOutlineItem) -> Bool {
+  func canMove(_ node: Node, to tentativeParent: Node) -> Bool {
     /*
      Rules:
       - Scenes, assets, and folders can be dragged into any folder (but a folder cannot be dragged
@@ -292,18 +292,36 @@ extension Document {
       - Scene entities can be dragged anywhere within a scene's subtrees (migration between scenes
         is allowed)
      */
-    switch (item.contents, tentativeParent.contents) {
-    case (let itemNode as Node, let parentNode as Node):
-      guard parentNode != itemNode else {
-        Swift.print("Cannot drop node \(itemNode.name) as child of \(parentNode.name)")
-        return false
-      }
-      //guard parentNode.isBranch else {
-      //  return false
-      //}
-      return !parentNode.isDescendant(of: itemNode)
-    default:
-      fatalError("Unsupported item contents.")
+    if tentativeParent.isDescendant(of: node) {
+      // A tree cannot have cycles
+      return false
+    }
+
+    if children(forItem: tentativeParent) == nil {
+      // Target is an obligate leaf node
+      return false
+    }
+
+    switch (node.value, tentativeParent.value) {
+    case (nil, nil):
+      // Folder into folder - ALLOW
+      return true
+
+    case (nil, _):
+      // Folder into object - FORBID
+      return false
+
+    case (_, nil):
+      // Object into folder - only if object is scene or asset
+      // TODO: Implement
+      return true
+
+    case (_, _):
+      // Object to object - only if:
+      //  - Node is entity and parent is Scene, or
+      //  - Both are entities
+      // TODO: Implement
+      return true
     }
   }
 }

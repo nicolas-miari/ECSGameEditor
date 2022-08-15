@@ -45,19 +45,23 @@ class ProjectNavigatorViewController: DocumentViewController {
 extension ProjectNavigatorViewController: NSOutlineViewDelegate {
 
   func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-    guard let outlineItem = item as? DocumentOutlineItem else {
-      let typeName = String.init(describing: type(of: item))
-      fatalError("Incompatible Outline Item Type: \(typeName) does not conform to DocumentOutlineItem.")
+    guard let document = document else {
+      return nil
+    }
+    let viewModel = document.viewModel(forItem: item)
+
+    guard let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("NameCell"), owner: self) as? NSTableCellView else {
+      return nil
     }
 
-    let view: NSTableCellView? = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("NameCell"), owner: self) as? NSTableCellView
-
-    if let textField = view?.textField {
-      textField.stringValue = outlineItem.title
+    if let textField = view.textField {
+      textField.stringValue = viewModel.title
       textField.sizeToFit()
     }
-    if let imageView = view?.imageView {
-      imageView.image = NSImage(named: NSImage.Name(outlineItem.imageName))
+    if let imageView = view.imageView {
+      let configuration = NSImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .small)
+      imageView.image = viewModel.image.withSymbolConfiguration(configuration)
+      imageView.contentTintColor = viewModel.tintColor
     }
     return view
   }
@@ -69,12 +73,13 @@ extension ProjectNavigatorViewController: NSMenuDelegate {
   // Thanks https://stackoverflow.com/a/65105980/433373
   func menuNeedsUpdate(_ menu: NSMenu) {
     menu.removeAllItems()
-
+    /*
     let indices = outlineView.contextMenuIndices
     let items = indices.map { outlineView.item(atRow: $0) as! DocumentOutlineItem }
     let menuItemDescriptors = document?.menuItemDescriptors(for: items) ?? []
     let menuItems = self.menuItems(from: menuItemDescriptors)
     menu.items = menuItems
+     */
   }
 
   // MARK: Support

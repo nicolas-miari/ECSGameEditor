@@ -21,7 +21,7 @@ public final class Document: NSDocument {
 
   var documentOutlineRootItem: DocumentOutlineItem!
   var outlineItemCache: [ObjectIdentifier: DocumentOutlineItem] = [:]
-  var projectOutlineDraggedItem: DocumentOutlineItem?
+  var projectOutlineDraggedItem: Any?
 
   // MARK: - NSDocument
 
