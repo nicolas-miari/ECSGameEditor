@@ -460,7 +460,7 @@
 			repositoryURL = "https://github.com/nicolas-miari/CodableTree.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.0;
+				minimumVersion = 1.0.0;
 			};
 		};
 		1F98097C289F5C30003845DB /* XCRemoteSwiftPackageReference "AssetLibrary" */ = {

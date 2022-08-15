@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/CodableTree.git",
       "state" : {
-        "revision" : "9d04b5128bad73efeb300e062801feae2b1705da",
-        "version" : "0.0.3"
+        "revision" : "92cd98dc675bd3e9ca1ba0f4055f09b6014c990e",
+        "version" : "1.0.0"
       }
     },
     {

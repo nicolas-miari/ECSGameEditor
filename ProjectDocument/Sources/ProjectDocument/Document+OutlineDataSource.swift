@@ -12,6 +12,8 @@ import EditorScene
 
 // MARK: - Project Outline Data Source
 
+/**
+ */
 extension Document: NSOutlineViewDataSource {
 
   // MARK: - Support
@@ -27,34 +29,65 @@ extension Document: NSOutlineViewDataSource {
     return outlineItem
   }
 
+  func node(forItem item: Any?) -> Node {
+    guard let node = item as? Node else {
+      return projectConfiguration.projectTree
+    }
+    return node
+  }
+
+  /**
+   A return value of an empty array means the item accepts children but doesn't have any yet (can be
+   expanded); nil means the item does not accept children (no disclosure indicator).
+   */
+  func children(forItem item: Any?) -> [Node]? {
+    guard let node = item as? Node else {
+      // Nil represents the root item of the outline view.
+      return projectConfiguration.projectTree.children
+    }
+    guard let value = node.value else {
+      // No value means the node is a strict branch node: it can only be a folder grouping scenes,
+      // assets, or other folders.
+      return node.children
+    }
+
+    // If the node has a value it is representing an object (not a folder); find out which and
+    // whether it has "children".
+    if let scene = scenes[value] {
+      // TODO: Return the scene's root node children
+      return []
+    }
+
+    // TODO: Determine how to identify a scene entity
+
+    return nil
+  }
+
   // MARK: - Data Source (Contents)
 
   public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-    let contents = outlineItem(for: item).contents
-    switch contents {
-    case let node as Node:
-      return node.children.count
-
-    default:
-      // TODO: Implement for sub-node objects (Scene entities, entity components).
-      fatalError("Unsupported outline view item content type: \(String(describing: type(of: contents)))")
+    /*
+     We only ever handle Node instances to the outline view. Whether it's folders grouping
+     Scenes/Assets/other folders, or nodes representing the internal entity tree of each scene.
+     for a branch node (folder), we simply return its children. For a leaf node, we first determine
+     if it represents an object iwth internal structure (e.g., a Scene), and if so, we pass those
+     children.
+     */
+    guard let children = children(forItem: item) else {
+      return 0 // This should not happen (we returned false for isItemExpandable:)
     }
+    return children.count
   }
 
   public func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-    let contents = outlineItem(for: item).contents
-    switch contents {
-    case let node as Node:
-      return outlineItem(for: node.children[index])
-    default:
-      // TODO: Implement for sub-node objects (Scene entities, entity components).
-      fatalError("Unsupported outline view item content type: \(String(describing: type(of: contents)))")
+    guard let children = children(forItem: item) else {
+      fatalError("") // This should not happen (we returned false for isItemExpandable:)
     }
+    return children[index]
   }
 
   public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-    let numberOfChildren = self.outlineView(outlineView, numberOfChildrenOfItem: item)
-    return numberOfChildren > 0
+    return (children(forItem: item) != nil)
   }
 
   // MARK: - Data Source (Rename)
@@ -176,8 +209,6 @@ extension Document: NSOutlineViewDataSource {
     }
     return true
   }
-
-  
 }
 
 /**
@@ -254,15 +285,22 @@ extension Document {
   }
 
   func canMove(_ item: DocumentOutlineItem, to tentativeParent: DocumentOutlineItem) -> Bool {
+    /*
+     Rules:
+      - Scenes, assets, and folders can be dragged into any folder (but a folder cannot be dragged
+        into one of its descendants).
+      - Scene entities can be dragged anywhere within a scene's subtrees (migration between scenes
+        is allowed)
+     */
     switch (item.contents, tentativeParent.contents) {
     case (let itemNode as Node, let parentNode as Node):
       guard parentNode != itemNode else {
         Swift.print("Cannot drop node \(itemNode.name) as child of \(parentNode.name)")
         return false
       }
-      guard parentNode.isBranch else {
-        return false
-      }
+      //guard parentNode.isBranch else {
+      //  return false
+      //}
       return !parentNode.isDescendant(of: itemNode)
     default:
       fatalError("Unsupported item contents.")

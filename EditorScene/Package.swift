@@ -15,7 +15,7 @@ let package = Package(
       targets: ["EditorScene"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/nicolas-miari/CodableTree.git", from: "0.0.3"),
+    .package(url: "https://github.com/nicolas-miari/CodableTree.git", from: "1.0.0"),
     .package(url: "https://github.com/nicolas-miari/Component.git", from: "1.0.0"),
     .package(url: "https://github.com/nicolas-miari/Entity.git", from: "1.0.0"),
     .package(url: "https://github.com/nicolas-miari/Transform.git", from: "1.0.0"),
