@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="PEd-7d-5j0">
+            <objects>
+                <viewController id="bU7-R8-ocO" sceneMemberID="viewController">
+                    <view key="view" id="tOy-S4-hL0">
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="313"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9CB-pc-fY4">
+                                <rect key="frame" x="163" y="72" width="281" height="21"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Bwc-je-5BS">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5eb-ft-0Np">
+                                <rect key="frame" x="160" y="97" width="78" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Jao-WH-3uV" id="yVf-pN-lcT">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="BlL-Kf-2ul">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="Jao-WH-3uV"/>
+                                            <menuItem title="Item 2" id="XNb-p5-P0p"/>
+                                            <menuItem title="Item 3" id="HaP-BL-jnh"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tqu-KI-1CP">
+                                <rect key="frame" x="53" y="74" width="104" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="New atlas name:" id="KZa-7r-M2n">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aMZ-BA-PA8">
+                                <rect key="frame" x="18" y="277" width="86" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Input images:" id="nIS-ZF-UAc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wr9-gS-YnA">
+                                <rect key="frame" x="110" y="165" width="334" height="128"/>
+                                <clipView key="contentView" drawsBackground="NO" id="QH1-l8-89a">
+                                    <rect key="frame" x="0.0" y="0.0" width="334" height="128"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ZmL-8a-YP5">
+                                            <rect key="frame" x="0.0" y="0.0" width="334" height="128"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="334" height="128"/>
+                                            <size key="maxSize" width="579" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="128" id="wWu-II-Qee"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="wYO-xE-fD1">
+                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="71e-cs-q6H">
+                                    <rect key="frame" x="318" y="0.0" width="16" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t1a-n0-w6f">
+                                <rect key="frame" x="341" y="13" width="110" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="96" id="UPT-xB-zcM"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Create Atlas" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="THU-o6-dZI">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9eK-ZS-y6A">
+                                <rect key="frame" x="233" y="13" width="110" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U0R-LW-Hf5">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cpj-EM-kc7">
+                                <rect key="frame" x="18" y="104" width="139" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Assumed scale factor:" id="IxN-QP-c0Y">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="t1a-n0-w6f" firstAttribute="leading" secondItem="9eK-ZS-y6A" secondAttribute="trailing" constant="12" symbolic="YES" id="2LR-ba-7sA"/>
+                            <constraint firstAttribute="trailing" secondItem="t1a-n0-w6f" secondAttribute="trailing" constant="20" symbolic="YES" id="519-fx-yXE"/>
+                            <constraint firstItem="Cpj-EM-kc7" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" constant="20" symbolic="YES" id="7bP-mJ-KT3"/>
+                            <constraint firstItem="9eK-ZS-y6A" firstAttribute="centerY" secondItem="t1a-n0-w6f" secondAttribute="centerY" id="8Pu-4i-aPu"/>
+                            <constraint firstAttribute="trailing" secondItem="wr9-gS-YnA" secondAttribute="trailing" constant="20" symbolic="YES" id="Afm-6K-F8x"/>
+                            <constraint firstItem="9CB-pc-fY4" firstAttribute="leading" secondItem="5eb-ft-0Np" secondAttribute="leading" id="ApL-vn-Tdw"/>
+                            <constraint firstItem="Cpj-EM-kc7" firstAttribute="top" secondItem="ZmL-8a-YP5" secondAttribute="bottom" constant="45" id="C5H-5A-dMM"/>
+                            <constraint firstAttribute="trailing" secondItem="9CB-pc-fY4" secondAttribute="trailing" constant="20" symbolic="YES" id="Cgg-E3-1v4"/>
+                            <constraint firstItem="aMZ-BA-PA8" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" constant="20" symbolic="YES" id="FXQ-CT-azi"/>
+                            <constraint firstItem="wr9-gS-YnA" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" constant="20" symbolic="YES" id="I2w-AS-4d9"/>
+                            <constraint firstItem="aMZ-BA-PA8" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" constant="20" symbolic="YES" id="Kwo-C0-MF9"/>
+                            <constraint firstAttribute="bottom" secondItem="t1a-n0-w6f" secondAttribute="bottom" constant="20" symbolic="YES" id="SmS-BB-elR"/>
+                            <constraint firstItem="Cpj-EM-kc7" firstAttribute="firstBaseline" secondItem="5eb-ft-0Np" secondAttribute="firstBaseline" id="Y3n-SV-bN3"/>
+                            <constraint firstItem="5eb-ft-0Np" firstAttribute="leading" secondItem="Cpj-EM-kc7" secondAttribute="trailing" constant="8" symbolic="YES" id="f0p-vU-dbe"/>
+                            <constraint firstItem="Tqu-KI-1CP" firstAttribute="firstBaseline" secondItem="9CB-pc-fY4" secondAttribute="firstBaseline" id="fd0-Xm-wgf"/>
+                            <constraint firstItem="9eK-ZS-y6A" firstAttribute="width" secondItem="t1a-n0-w6f" secondAttribute="width" id="foz-Lm-RjT"/>
+                            <constraint firstItem="9CB-pc-fY4" firstAttribute="top" secondItem="5eb-ft-0Np" secondAttribute="bottom" constant="8" symbolic="YES" id="gWL-wv-acx"/>
+                            <constraint firstItem="wr9-gS-YnA" firstAttribute="leading" secondItem="aMZ-BA-PA8" secondAttribute="trailing" constant="8" symbolic="YES" id="kki-lg-cyT"/>
+                            <constraint firstItem="t1a-n0-w6f" firstAttribute="top" secondItem="9CB-pc-fY4" secondAttribute="bottom" constant="32" id="pa9-Jo-4hI"/>
+                            <constraint firstItem="9CB-pc-fY4" firstAttribute="leading" secondItem="Tqu-KI-1CP" secondAttribute="trailing" constant="8" symbolic="YES" id="smR-33-PUA"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="274" y="-58.5"/>
+        </scene>
+    </scenes>
+</document>
