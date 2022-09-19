@@ -15,9 +15,11 @@ let package = Package(
         targets: ["ProjectDocument"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/nicolas-miari/AssetLibrary.git", from: "0.0.2"),
+      .package(url: "https://github.com/nicolas-miari/AssetLibrary.git", from: "1.0.0"),
       .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "0.0.0"),
+      .package(url: "https://github.com/nicolas-miari/ImageAsset.git", from: "1.0.2"),
       .package(url: "https://github.com/nicolas-miari/Scene.git", from: "1.0.0"),
+      .package(url: "https://github.com/nicolas-miari/UniqueIdentifierProvider.git", from: "0.0.1"),
     ],
     targets: [
       .target(
@@ -25,7 +27,9 @@ let package = Package(
           dependencies: [
             .product(name: "AssetLibrary", package: "AssetLibrary"),
             .product(name: "BinaryResourceProvider", package: "BinaryResourceProvider"),
+            .product(name: "ImageAsset", package: "ImageAsset"),
             .product(name: "Scene", package: "Scene"),
+            .product(name: "UniqueIdentifierProvider", package: "UniqueIdentifierProvider"),
           ]),
       .testTarget(
         name: "ProjectDocumentTests",

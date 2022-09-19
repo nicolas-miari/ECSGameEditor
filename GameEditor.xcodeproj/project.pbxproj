@@ -474,7 +474,7 @@
 			repositoryURL = "https://github.com/nicolas-miari/AssetLibrary.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.2;
+				minimumVersion = 1.0.0;
 			};
 		};
 		1F98097F289F5C57003845DB /* XCRemoteSwiftPackageReference "BinaryResourceProvider" */ = {

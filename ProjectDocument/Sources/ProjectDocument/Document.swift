@@ -6,8 +6,10 @@
 //
 
 import AppKit
+import Asset
 import AssetLibrary
 import BinaryResourceProvider
+import ImageAsset
 import Scene
 
 public final class Document: NSDocument {
@@ -53,7 +55,7 @@ public final class Document: NSDocument {
     }
     let projectConfigurationFile = try projectConfiguration.fileWrapper()
     let sceneDirectory = FileWrapper(directoryWithFileWrappers: sceneDirectories)
-    let assetLibraryDirectory = assetLibrary.directoryWrapper()
+    let assetLibraryDirectory = try assetLibrary.directoryWrapper()
     let binaryResourceDirectory = resourceProvider.directoryWrapper()
 
     return FileWrapper(directoryWithFileWrappers: [
@@ -74,16 +76,18 @@ public final class Document: NSDocument {
     guard let assetLibraryDirectory = fileWrapper.fileWrappers?[.assetLibraryDirectoryName] else {
       throw DocumentError.corruptedPackage(detailedInfo: "")
     }
-    self.assetLibrary = try AssetLibraryFactory.loadAssetLibrary(from: assetLibraryDirectory)
+    self.assetLibrary = try AssetLibraryFactory.loadAssetLibrary(
+      from: assetLibraryDirectory, assetTypes: supportedAssetTypes)
 
     guard let binaryResourcesDirectory = fileWrapper.fileWrappers?[.binaryResourceDirectoryName] else {
       throw DocumentError.corruptedPackage(detailedInfo: "")
     }
-    self.resourceProvider = try BinaryResourceProviderFactory.loadResourceProvider(from: binaryResourcesDirectory)
+    self.resourceProvider = try BinaryResourceProviderFactory.loadResourceProvider(
+      from: binaryResourcesDirectory)
 
     // 2. Read project configuration
     guard let projectConfigurationFile = fileWrapper.fileWrappers?[.projectConfigurationFileName],
-    let projectConfigurationData = projectConfigurationFile.regularFileContents else {
+          let projectConfigurationData = projectConfigurationFile.regularFileContents else {
       throw DocumentError.corruptedPackage(detailedInfo: "")
     }
     self.projectConfiguration = try JSONDecoder().decode(ProjectConfiguration.self, from: projectConfigurationData)
@@ -105,6 +109,10 @@ public final class Document: NSDocument {
       }
       return try JSONDecoder().decode(Scene.self, from: data)
     }
+  }
+
+  private var supportedAssetTypes: [Asset.Type] {
+    return [ImageAsset.self]
   }
 }
 

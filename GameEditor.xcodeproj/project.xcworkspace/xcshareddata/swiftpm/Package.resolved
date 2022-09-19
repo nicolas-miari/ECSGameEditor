@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/Asset.git",
       "state" : {
-        "revision" : "016b9d7346573cf4ca688610a159f136f7c7fc8a",
-        "version" : "0.0.0"
+        "revision" : "d64a66fa0caab0e26b66cb24e10f88e2fd89daa8",
+        "version" : "1.0.0"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/AssetLibrary.git",
       "state" : {
-        "revision" : "fe8755874eb437a79e19a24bf9504b1b942ed67a",
-        "version" : "0.0.2"
+        "revision" : "10622c31a35e7a5921eb5176419e62b4b35c42ce",
+        "version" : "1.0.0"
       }
     },
     {
@@ -73,6 +73,15 @@
       }
     },
     {
+      "identity" : "imageasset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/ImageAsset.git",
+      "state" : {
+        "revision" : "8ab585634c29527281431fbb0ffacc189a96f9b2",
+        "version" : "1.0.2"
+      }
+    },
+    {
       "identity" : "matrixutils",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/MatrixUtils.git",
@@ -115,6 +124,15 @@
       "state" : {
         "revision" : "14417494fd290fc7179e628bb7b135b1e8fe0de4",
         "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "uniqueidentifierprovider",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/UniqueIdentifierProvider.git",
+      "state" : {
+        "revision" : "e4fe581975a6a9d538c2ea665195061ea9a7653c",
+        "version" : "0.0.1"
       }
     }
   ],
