@@ -5,7 +5,7 @@ import AssetLibrary
 import BinaryResourceProvider
 import ImageFileImporter
 import UniqueIdentifierProvider
-import TextureAtlasAsset
+import SpriteSheetAsset
 
 @testable import ImageAssetImporter
 
@@ -27,10 +27,10 @@ final class ImageAssetImporterTests: XCTestCase {
       assetLibrary: library)
 
     // WHEN:
-    try await assetImporter.start(in: NSViewController(), type: TextureAtlasAsset.self)
+    try await assetImporter.start(in: NSViewController(), type: SpriteSheetAsset.self)
 
     // THEN:
-    let atlases = library.assets(ofType: TextureAtlasAsset.self)
+    let atlases = library.assets(ofType: SpriteSheetAsset.self)
     XCTAssertEqual(atlases.count, 0)
   }
 }

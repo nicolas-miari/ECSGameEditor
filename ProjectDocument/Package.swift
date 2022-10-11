@@ -17,11 +17,11 @@ let package = Package(
     dependencies: [
       .package(path: "../ImageAssetImporter.git"),
       .package(path: "../ImageFileImporter.git"),
-      .package(url: "https://github.com/nicolas-miari/AssetLibrary.git", from: "1.0.0"),
-      .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "1.0.0"),
-      .package(url: "https://github.com/nicolas-miari/ImageAsset.git", from: "1.0.2"),
-      .package(url: "https://github.com/nicolas-miari/Scene.git", from: "1.0.0"),
-      .package(url: "https://github.com/nicolas-miari/UniqueIdentifierProvider.git", from: "0.0.3"),
+      .package(path: "../AssetLibrary"),
+      .package(path: "../BinaryResourceProvider"),
+      .package(path: "../ImageAsset"),
+      .package(path: "../UniqueIdentifierProvider"),
+      .package(url: "https://github.com/nicolas-miari/Scene.git", from: "1.0.0")
     ],
     targets: [
       .target(

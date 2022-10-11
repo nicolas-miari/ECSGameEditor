@@ -5,9 +5,9 @@ import BinaryResourceProvider
 import ImageAsset
 import UniqueIdentifierProvider
 import ImageFileImporter
-import TextureAtlasAsset
+import SpriteSheetAsset
 
-extension TextureAtlasAsset {
+extension SpriteSheetAsset {
   
 }
 

@@ -11,13 +11,8 @@
 		1F23E07A28A0C5FE00C9C411 /* Sequence+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */; };
 		1F30941F28A7BBD3007F8B50 /* Node+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30941E28A7BBD3007F8B50 /* Node+Utils.swift */; };
 		1F30942528A8A4A7007F8B50 /* ProjectDocument in Frameworks */ = {isa = PBXBuildFile; productRef = 1F30942428A8A4A7007F8B50 /* ProjectDocument */; };
-		1F8E065F28A8C566009FDBE0 /* Scene in Frameworks */ = {isa = PBXBuildFile; productRef = 1F8E065E28A8C566009FDBE0 /* Scene */; };
 		1F8E066228A90E46009FDBE0 /* EditorScene in Frameworks */ = {isa = PBXBuildFile; productRef = 1F8E066128A90E46009FDBE0 /* EditorScene */; };
-		1F98097B289F5B70003845DB /* CodableTree in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097A289F5B70003845DB /* CodableTree */; };
-		1F98097E289F5C30003845DB /* AssetLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98097D289F5C30003845DB /* AssetLibrary */; };
-		1F980981289F5C57003845DB /* BinaryResourceProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 1F980980289F5C57003845DB /* BinaryResourceProvider */; };
 		1F980986289F61F5003845DB /* SampleSceneData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F980985289F61F5003845DB /* SampleSceneData.json */; };
-		1F98098B289FA0C1003845DB /* Component in Frameworks */ = {isa = PBXBuildFile; productRef = 1F98098A289FA0C1003845DB /* Component */; };
 		1FB0882E289F59C2008DDB3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0882D289F59C2008DDB3B /* AppDelegate.swift */; };
 		1FB08830289F59C2008DDB3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0882F289F59C2008DDB3B /* ViewController.swift */; };
 		1FB08834289F59C3008DDB3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB08833289F59C3008DDB3B /* Assets.xcassets */; };
@@ -28,12 +23,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F01D54E28F514F000F7782F /* CompositeImageAsset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CompositeImageAsset; sourceTree = "<group>"; };
+		1F01D54F28F517FC00F7782F /* ImageAsset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ImageAsset; sourceTree = "<group>"; };
+		1F01D55028F518C800F7782F /* SpriteSheetAsset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SpriteSheetAsset; sourceTree = "<group>"; };
 		1F16BA2A28A3B080006D7620 /* Equatable+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equatable+Utils.swift"; sourceTree = "<group>"; };
-		1F2380A428F1861B005D0D98 /* ImageFileImporter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ImageFileImporter; path = ../ECS/ImageFileImporter; sourceTree = "<group>"; };
 		1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Utils.swift"; sourceTree = "<group>"; };
 		1F30941E28A7BBD3007F8B50 /* Node+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Node+Utils.swift"; sourceTree = "<group>"; };
 		1F30942228A8A3EA007F8B50 /* ProjectDocument */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProjectDocument; sourceTree = "<group>"; };
-		1F35B82328F50116004699EA /* Asset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Asset; sourceTree = "<group>"; };
+		1F63B32328F5043A00F1D930 /* ImageFileImporter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ImageFileImporter; sourceTree = "<group>"; };
+		1F63B32428F5048D00F1D930 /* CompositeAsset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CompositeAsset; sourceTree = "<group>"; };
 		1F8E066028A90E08009FDBE0 /* EditorScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EditorScene; sourceTree = "<group>"; };
 		1F96FD2128AD0539008E7C71 /* ImageAssetImporter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ImageAssetImporter; sourceTree = "<group>"; };
 		1F980985289F61F5003845DB /* SampleSceneData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SampleSceneData.json; sourceTree = "<group>"; };
@@ -47,6 +45,10 @@
 		1FB08839289F59C3008DDB3B /* GameEditor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameEditor.entitlements; sourceTree = "<group>"; };
 		1FB0883F289F59E9008DDB3B /* ProjectNavigator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProjectNavigator.storyboard; sourceTree = "<group>"; };
 		1FB08841289F5A59008DDB3B /* ProjectNavigatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNavigatorViewController.swift; sourceTree = "<group>"; };
+		1FBAF69D28F50D1F00E02637 /* UniqueIdentifierProvider */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UniqueIdentifierProvider; sourceTree = "<group>"; };
+		1FBAF69E28F50E8900E02637 /* BinaryResourceProvider */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BinaryResourceProvider; sourceTree = "<group>"; };
+		1FBAF69F28F50ECF00E02637 /* ImageUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ImageUtils; sourceTree = "<group>"; };
+		1FBAF6A028F5117200E02637 /* AssetLibrary */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AssetLibrary; sourceTree = "<group>"; };
 		1FD8996B289FBDF700947E2F /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,12 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F98098B289FA0C1003845DB /* Component in Frameworks */,
-				1F980981289F5C57003845DB /* BinaryResourceProvider in Frameworks */,
-				1F98097B289F5B70003845DB /* CodableTree in Frameworks */,
-				1F8E065F28A8C566009FDBE0 /* Scene in Frameworks */,
 				1F30942528A8A4A7007F8B50 /* ProjectDocument in Frameworks */,
-				1F98097E289F5C30003845DB /* AssetLibrary in Frameworks */,
 				1F8E066228A90E46009FDBE0 /* EditorScene in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,14 +90,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1F35B82228F50116004699EA /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				1F35B82328F50116004699EA /* Asset */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		1F980982289F6032003845DB /* GameEditorCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,12 +101,19 @@
 		1FB08821289F59C2008DDB3B = {
 			isa = PBXGroup;
 			children = (
-				1F35B82228F50116004699EA /* Packages */,
-				1F2380A428F1861B005D0D98 /* ImageFileImporter */,
 				1F9EB39E28D80FF300D1147C /* AppKitUtils */,
-				1F96FD2128AD0539008E7C71 /* ImageAssetImporter */,
+				1FBAF6A028F5117200E02637 /* AssetLibrary */,
+				1FBAF69E28F50E8900E02637 /* BinaryResourceProvider */,
+				1F63B32428F5048D00F1D930 /* CompositeAsset */,
+				1F01D54E28F514F000F7782F /* CompositeImageAsset */,
 				1F8E066028A90E08009FDBE0 /* EditorScene */,
+				1F01D54F28F517FC00F7782F /* ImageAsset */,
+				1F96FD2128AD0539008E7C71 /* ImageAssetImporter */,
+				1F63B32328F5043A00F1D930 /* ImageFileImporter */,
+				1FBAF69F28F50ECF00E02637 /* ImageUtils */,
 				1F30942228A8A3EA007F8B50 /* ProjectDocument */,
+				1F01D55028F518C800F7782F /* SpriteSheetAsset */,
+				1FBAF69D28F50D1F00E02637 /* UniqueIdentifierProvider */,
 				1FB0882C289F59C2008DDB3B /* GameEditor */,
 				1FB0882B289F59C2008DDB3B /* Products */,
 				1F30942328A8A4A7007F8B50 /* Frameworks */,
@@ -175,12 +171,7 @@
 			);
 			name = GameEditor;
 			packageProductDependencies = (
-				1F98097A289F5B70003845DB /* CodableTree */,
-				1F98097D289F5C30003845DB /* AssetLibrary */,
-				1F980980289F5C57003845DB /* BinaryResourceProvider */,
-				1F98098A289FA0C1003845DB /* Component */,
 				1F30942428A8A4A7007F8B50 /* ProjectDocument */,
-				1F8E065E28A8C566009FDBE0 /* Scene */,
 				1F8E066128A90E46009FDBE0 /* EditorScene */,
 			);
 			productName = GameEditor;
@@ -212,11 +203,6 @@
 			);
 			mainGroup = 1FB08821289F59C2008DDB3B;
 			packageReferences = (
-				1F980979289F5B70003845DB /* XCRemoteSwiftPackageReference "CodableTree" */,
-				1F98097C289F5C30003845DB /* XCRemoteSwiftPackageReference "AssetLibrary" */,
-				1F98097F289F5C57003845DB /* XCRemoteSwiftPackageReference "BinaryResourceProvider" */,
-				1F980989289FA0C1003845DB /* XCRemoteSwiftPackageReference "Component" */,
-				1F8E065D28A8C566009FDBE0 /* XCRemoteSwiftPackageReference "Scene" */,
 			);
 			productRefGroup = 1FB0882B289F59C2008DDB3B /* Products */;
 			projectDirPath = "";
@@ -464,82 +450,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		1F8E065D28A8C566009FDBE0 /* XCRemoteSwiftPackageReference "Scene" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicolas-miari/Scene";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		1F980979289F5B70003845DB /* XCRemoteSwiftPackageReference "CodableTree" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicolas-miari/CodableTree.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		1F98097C289F5C30003845DB /* XCRemoteSwiftPackageReference "AssetLibrary" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicolas-miari/AssetLibrary.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		1F98097F289F5C57003845DB /* XCRemoteSwiftPackageReference "BinaryResourceProvider" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicolas-miari/BinaryResourceProvider.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		1F980989289FA0C1003845DB /* XCRemoteSwiftPackageReference "Component" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nicolas-miari/Component.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		1F30942428A8A4A7007F8B50 /* ProjectDocument */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProjectDocument;
 		};
-		1F8E065E28A8C566009FDBE0 /* Scene */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F8E065D28A8C566009FDBE0 /* XCRemoteSwiftPackageReference "Scene" */;
-			productName = Scene;
-		};
 		1F8E066128A90E46009FDBE0 /* EditorScene */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = EditorScene;
-		};
-		1F98097A289F5B70003845DB /* CodableTree */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F980979289F5B70003845DB /* XCRemoteSwiftPackageReference "CodableTree" */;
-			productName = CodableTree;
-		};
-		1F98097D289F5C30003845DB /* AssetLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F98097C289F5C30003845DB /* XCRemoteSwiftPackageReference "AssetLibrary" */;
-			productName = AssetLibrary;
-		};
-		1F980980289F5C57003845DB /* BinaryResourceProvider */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F98097F289F5C57003845DB /* XCRemoteSwiftPackageReference "BinaryResourceProvider" */;
-			productName = BinaryResourceProvider;
-		};
-		1F98098A289FA0C1003845DB /* Component */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1F980989289FA0C1003845DB /* XCRemoteSwiftPackageReference "Component" */;
-			productName = Component;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

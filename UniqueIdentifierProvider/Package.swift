@@ -4,24 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "AppKitUtils",
+    name: "UniqueIdentifierProvider",
+    platforms: [
+      .macOS(.v11)
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "AppKitUtils",
-            targets: ["AppKitUtils"]),
+            name: "UniqueIdentifierProvider",
+            targets: ["UniqueIdentifierProvider"]),
     ],
     dependencies: [],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "AppKitUtils",
+            name: "UniqueIdentifierProvider",
             dependencies: []),
         .testTarget(
-            name: "AppKitUtilsTests",
-            dependencies: ["AppKitUtils"],
-            resources: [.process("Resources")]
-        ),
+            name: "UniqueIdentifierProviderTests",
+            dependencies: ["UniqueIdentifierProvider"]),
     ]
 )

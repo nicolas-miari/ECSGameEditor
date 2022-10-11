@@ -8,7 +8,7 @@
 import AppKit
 import ImageAssetImporter
 import ImageFileImporter
-import TextureAtlasAsset
+import SpriteSheetAsset
 import UniqueIdentifierProvider
 
 extension Document {
@@ -27,7 +27,7 @@ extension Document {
 
     Task {
       do {
-        try await assetImporter.start(in: viewController, type: TextureAtlasAsset.self)
+        try await assetImporter.start(in: viewController, type: SpriteSheetAsset.self)
       } catch {
         let alert = NSAlert(error: error)
         _ = alert.runModal()

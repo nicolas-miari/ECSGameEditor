@@ -2,9 +2,6 @@ import Foundation
 
 /// Root protocol, defines the interface common to all asset types.
 ///
-/// Assets are isolated to the main actor by default, because creation and modification always
-/// happen as a direct result of user input, which happens in the UI (main) thread.
-@MainActor
 public protocol Asset: AnyObject, Codable {
 
   /// The human-readable name of the asset. Can be changed at will.
