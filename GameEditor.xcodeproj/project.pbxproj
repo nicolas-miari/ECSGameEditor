@@ -33,7 +33,7 @@
 		1F23E07928A0C5FE00C9C411 /* Sequence+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Utils.swift"; sourceTree = "<group>"; };
 		1F30941E28A7BBD3007F8B50 /* Node+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Node+Utils.swift"; sourceTree = "<group>"; };
 		1F30942228A8A3EA007F8B50 /* ProjectDocument */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProjectDocument; sourceTree = "<group>"; };
-		1F35B82128F3F3F9004699EA /* Asset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Asset; sourceTree = "<group>"; };
+		1F35B82328F50116004699EA /* Asset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Asset; sourceTree = "<group>"; };
 		1F8E066028A90E08009FDBE0 /* EditorScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EditorScene; sourceTree = "<group>"; };
 		1F96FD2128AD0539008E7C71 /* ImageAssetImporter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ImageAssetImporter; sourceTree = "<group>"; };
 		1F980985289F61F5003845DB /* SampleSceneData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SampleSceneData.json; sourceTree = "<group>"; };
@@ -93,6 +93,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1F35B82228F50116004699EA /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				1F35B82328F50116004699EA /* Asset */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		1F980982289F6032003845DB /* GameEditorCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +112,7 @@
 		1FB08821289F59C2008DDB3B = {
 			isa = PBXGroup;
 			children = (
-				1F35B82128F3F3F9004699EA /* Asset */,
+				1F35B82228F50116004699EA /* Packages */,
 				1F2380A428F1861B005D0D98 /* ImageFileImporter */,
 				1F9EB39E28D80FF300D1147C /* AppKitUtils */,
 				1F96FD2128AD0539008E7C71 /* ImageAssetImporter */,
