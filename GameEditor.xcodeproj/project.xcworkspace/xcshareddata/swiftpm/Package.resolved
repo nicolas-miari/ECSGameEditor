@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "asset",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nicolas-miari/Asset.git",
-      "state" : {
-        "revision" : "d64a66fa0caab0e26b66cb24e10f88e2fd89daa8",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "assetlibrary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/AssetLibrary.git",
@@ -23,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/BinaryResourceProvider.git",
       "state" : {
-        "revision" : "9ad4ca2ee4beb90c9e644308a2a33bb214adf1fa",
-        "version" : "0.0.0"
+        "revision" : "e0125af4ecd3c4ceedb61c2e057237c47620521f",
+        "version" : "1.0.0"
       }
     },
     {
@@ -43,6 +34,15 @@
       "state" : {
         "revision" : "0d9817c438eb1b12720ac6376d24bc028bcfc2fd",
         "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "compositeimageasset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/CompositeImageAsset.git",
+      "state" : {
+        "revision" : "f55cef63a5876db89a36a18a721fd1f3c91c472a",
+        "version" : "1.0.2"
       }
     },
     {
@@ -82,6 +82,15 @@
       }
     },
     {
+      "identity" : "imageutils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/ImageUtils.git",
+      "state" : {
+        "revision" : "c3e175675fb5f0addc1bcc354dc5a3304efd3e07",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "matrixutils",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/MatrixUtils.git",
@@ -118,6 +127,15 @@
       }
     },
     {
+      "identity" : "textureatlasasset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicolas-miari/TextureAtlasAsset.git",
+      "state" : {
+        "revision" : "90194c3de5f5efbbf2fdf824831101e41a58767c",
+        "version" : "2.0.1"
+      }
+    },
+    {
       "identity" : "transform",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/Transform.git",
@@ -131,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicolas-miari/UniqueIdentifierProvider.git",
       "state" : {
-        "revision" : "e4fe581975a6a9d538c2ea665195061ea9a7653c",
-        "version" : "0.0.1"
+        "revision" : "d6c5870409ec2a4cf3dfb0f5debd08845e9dedf1",
+        "version" : "0.0.3"
       }
     }
   ],

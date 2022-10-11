@@ -11,12 +11,15 @@ import AssetLibrary
 import BinaryResourceProvider
 import ImageAsset
 import Scene
+import UniqueIdentifierProvider
 
 public final class Document: NSDocument {
 
   var projectConfiguration: ProjectConfiguration
   var assetLibrary: AssetLibrary
   var resourceProvider: BinaryResourceProvider
+  var identifierProvider: UniqueIdentifierProvider
+
   var scenes: [String: Scene]
 
   // MARK: Stored Properties Supporting Outline Data Source
@@ -28,9 +31,11 @@ public final class Document: NSDocument {
   // MARK: - NSDocument
 
   public override init() {
+    let idProvider = UniqueIdentifierProviderFactory.newIdentifierProvider()
     self.projectConfiguration = ProjectConfiguration()
     self.assetLibrary = AssetLibraryFactory.newLibrary()
-    self.resourceProvider = BinaryResourceProviderFactory.newResourceProvider()
+    self.identifierProvider = idProvider
+    self.resourceProvider = BinaryResourceProviderFactory.newResourceProvider(identifierProvider: idProvider)
     self.scenes = [:]
 
     super.init()
@@ -56,7 +61,7 @@ public final class Document: NSDocument {
     let projectConfigurationFile = try projectConfiguration.fileWrapper()
     let sceneDirectory = FileWrapper(directoryWithFileWrappers: sceneDirectories)
     let assetLibraryDirectory = try assetLibrary.directoryWrapper()
-    let binaryResourceDirectory = resourceProvider.directoryWrapper()
+    let binaryResourceDirectory = try resourceProvider.directoryWrapper()
 
     return FileWrapper(directoryWithFileWrappers: [
       .projectConfigurationFileName: projectConfigurationFile,

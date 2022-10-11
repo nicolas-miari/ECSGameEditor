@@ -15,11 +15,13 @@ let package = Package(
         targets: ["ProjectDocument"]),
     ],
     dependencies: [
+      .package(path: "../ImageAssetImporter.git"),
+      .package(path: "../ImageFileImporter.git"),
       .package(url: "https://github.com/nicolas-miari/AssetLibrary.git", from: "1.0.0"),
-      .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "0.0.0"),
+      .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "1.0.0"),
       .package(url: "https://github.com/nicolas-miari/ImageAsset.git", from: "1.0.2"),
       .package(url: "https://github.com/nicolas-miari/Scene.git", from: "1.0.0"),
-      .package(url: "https://github.com/nicolas-miari/UniqueIdentifierProvider.git", from: "0.0.1"),
+      .package(url: "https://github.com/nicolas-miari/UniqueIdentifierProvider.git", from: "0.0.3"),
     ],
     targets: [
       .target(
@@ -28,6 +30,8 @@ let package = Package(
             .product(name: "AssetLibrary", package: "AssetLibrary"),
             .product(name: "BinaryResourceProvider", package: "BinaryResourceProvider"),
             .product(name: "ImageAsset", package: "ImageAsset"),
+            .product(name: "ImageAssetImporter", package: "ImageAssetImporter"),
+            .product(name: "ImageFileImporter", package: "ImageFileImporter"),
             .product(name: "Scene", package: "Scene"),
             .product(name: "UniqueIdentifierProvider", package: "UniqueIdentifierProvider"),
           ]),

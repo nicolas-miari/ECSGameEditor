@@ -16,8 +16,9 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/nicolas-miari/AssetLibrary.git", from: "1.0.0"),
-    .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "0.0.0"),
+    .package(url: "https://github.com/nicolas-miari/BinaryResourceProvider.git", from: "1.0.0"),
     .package(url: "https://github.com/nicolas-miari/ImageAsset.git", from: "1.0.2"),
+    .package(url: "https://github.com/nicolas-miari/TextureAtlasAsset.git", from: "2.0.1"),
     .package(url: "https://github.com/nicolas-miari/UniqueIdentifierProvider.git", from: "0.0.1"),
   ],
   targets: [
@@ -27,6 +28,7 @@ let package = Package(
         .product(name: "AssetLibrary", package: "AssetLibrary"),
         .product(name: "BinaryResourceProvider", package: "BinaryResourceProvider"),
         .product(name: "ImageAsset", package: "ImageAsset"),
+        .product(name: "TextureAtlasAsset", package: "TextureAtlasAsset"),
         .product(name: "UniqueIdentifierProvider", package: "UniqueIdentifierProvider"),
       ],
       resources: [.process("Resources")]

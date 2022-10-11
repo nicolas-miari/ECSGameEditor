@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Input Image Options View Controller-->
         <scene sceneID="PEd-7d-5j0">
             <objects>
-                <viewController id="bU7-R8-ocO" sceneMemberID="viewController">
+                <viewController id="bU7-R8-ocO" customClass="InputImageOptionsViewController" customModule="ImageAssetImporter" sceneMemberID="viewController">
                     <view key="view" id="tOy-S4-hL0">
                         <rect key="frame" x="0.0" y="0.0" width="464" height="313"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -23,15 +23,15 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5eb-ft-0Np">
-                                <rect key="frame" x="160" y="97" width="78" height="25"/>
-                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Jao-WH-3uV" id="yVf-pN-lcT">
+                                <rect key="frame" x="160" y="97" width="54" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="1x" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Jao-WH-3uV" id="yVf-pN-lcT">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="BlL-Kf-2ul">
                                         <items>
-                                            <menuItem title="Item 1" state="on" id="Jao-WH-3uV"/>
-                                            <menuItem title="Item 2" id="XNb-p5-P0p"/>
-                                            <menuItem title="Item 3" id="HaP-BL-jnh"/>
+                                            <menuItem title="1x" state="on" id="Jao-WH-3uV"/>
+                                            <menuItem title="2x" id="XNb-p5-P0p"/>
+                                            <menuItem title="3x" id="HaP-BL-jnh"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -93,6 +93,9 @@
 DQ
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="submit:" target="bU7-R8-ocO" id="Avi-dP-t96"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9eK-ZS-y6A">
                                 <rect key="frame" x="233" y="13" width="110" height="32"/>
@@ -103,6 +106,9 @@ DQ
 Gw
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="cancel:" target="bU7-R8-ocO" id="YYk-o1-9IT"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cpj-EM-kc7">
                                 <rect key="frame" x="18" y="104" width="139" height="16"/>
@@ -136,6 +142,12 @@ Gw
                             <constraint firstItem="9CB-pc-fY4" firstAttribute="leading" secondItem="Tqu-KI-1CP" secondAttribute="trailing" constant="8" symbolic="YES" id="smR-33-PUA"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="atlasNameTextField" destination="9CB-pc-fY4" id="6Bn-tB-pAq"/>
+                        <outlet property="scaleFactorButton" destination="5eb-ft-0Np" id="j8m-eV-sTx"/>
+                        <outlet property="submitButton" destination="t1a-n0-w6f" id="yI1-Ho-5pS"/>
+                        <outlet property="textView" destination="ZmL-8a-YP5" id="SvT-cB-ZTV"/>
+                    </connections>
                 </viewController>
                 <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
